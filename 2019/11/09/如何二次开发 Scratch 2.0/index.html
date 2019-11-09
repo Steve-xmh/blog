@@ -5,16 +5,42 @@
   
 
   
-  <title>小萧的个人博客</title>
+  <title>如何二次开发 Scratch 2.0 | 小萧的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="把">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小萧的个人博客">
-<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;index.html">
+  <meta name="description" content="本文原本是发在 Scratch 贴吧 里的，但是因为比较凌乱所以正好开了博客就稍作整理之后发在这里了。  前言你还在为 Flash Builder 的破解验证而烦恼吗？你还在为 Flash Builder 的超长加载而感到心烦吗？你还在为找不到 FlashDevelop 二次开发 Scratch 的教程而感到心累吗？一切都结束了！小萧经历千辛万苦终于集合了各位大佬的教程，成功的使用 FlashD">
+<meta name="keywords" content="ActionScript,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何二次开发 Scratch 2.0">
+<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;index.html">
 <meta property="og:site_name" content="小萧的个人博客">
-<meta property="og:description" content="把">
+<meta property="og:description" content="本文原本是发在 Scratch 贴吧 里的，但是因为比较凌乱所以正好开了博客就稍作整理之后发在这里了。  前言你还在为 Flash Builder 的破解验证而烦恼吗？你还在为 Flash Builder 的超长加载而感到心烦吗？你还在为找不到 FlashDevelop 二次开发 Scratch 的教程而感到心累吗？一切都结束了！小萧经历千辛万苦终于集合了各位大佬的教程，成功的使用 FlashD">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;05a07d63f6246b6001f0d95fe6f81a4c500fa24c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;d0cae0246b600c338987b5e3174c510fd8f9a14c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;4d8d7d600c338744e43b44575c0fd9f9d62aa04c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;b9a16df40ad162d9d5a176331cdfa9ec8b13cdff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;c05d1cd162d9f2d37f5e30c0a4ec8a136227ccff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;b17874d9f2d3572c38ad88f38713632763d0c3ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;d970e4d3572c11df839eab0c6e2762d0f603c2ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;497a412c11dfa9eca16142386fd0f703908fc1ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;0da92cf33a87e9506b60e5431d385343faf2b4d7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;e106b20f4bfbfbed5988275075f0f736aec31f71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;1fa65dfbfbedab64f0a35ceffa36afc378311e71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;a63c1c7b02087bf416c248c6ffd3572c11dfcf18.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;f052ededab64034f8c1cd329a2c379310b551d71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;4044bd64034f78f002da8bdc74310a55b2191c71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;b1d214087bf40ad17fcad8cc5a2c11dfa9ecce18.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;d0cae0246b600c33c197cde7174c510fd8f9a158.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;4d8d7d600c338744ac2b3c535c0fd9f9d62aa058.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;2ca3264e251f95ca73809e99c4177f3e660952d5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;8be7331f95cad1c804cef008723e6709c83d51d5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;b8e66ef0f736afc398d3304abe19ebc4b645126f.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;c359e136afc37931e8b78906e6c4b74542a9116f.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;1aedbb345982b2b7866830eb3cadcbef77099b57.png">
+<meta property="og:updated_time" content="2019-11-09T06:40:03.690Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
   
   
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
@@ -61,9 +87,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-如何二次开发 Scratch 2.0" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-如何二次开发 Scratch 2.0" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0/" class="article-date">
   <time datetime="2019-11-09T05:40:10.000Z" itemprop="datePublished">2019-11-09</time>
@@ -76,8 +100,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%20Scratch%202.0/">如何二次开发 Scratch 2.0</a>
+    <h1 class="article-title" itemprop="name">
+      如何二次开发 Scratch 2.0
     </h1>
   
 
@@ -189,65 +213,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-第一个博客！" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" class="article-date">
-  <time datetime="2019-11-09T03:09:35.000Z" itemprop="datePublished">2019-11-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/">第一个博客！</a>
-    </h1>
+    <a href="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第一个博客！</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然不知道要写什么，不过还是介绍一下自己吧：</p>
-<h2 id="我是谁？"><a href="#我是谁？" class="headerlink" title="我是谁？"></a>我是谁？</h2><p>大家好，我叫 SteveXMH （史蒂夫·萧），还是一个在校学生，也是一个编程蒟蒻（真）。</p>
-<img src="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/That'sme.png" class="" title="这是我">
-
-<p>我特别喜欢玩 Minecraft （我的世界），但是流行的一些 MOBA、FPS 一类的都是去当快递的。<br>可能是 MC 快要在国内冷淡了，已经没有多少人在玩了，甚至是多模组生存也没有人愿意肝了，实在是遗憾啊。。。</p>
-<h2 id="我都有哪些作品？"><a href="#我都有哪些作品？" class="headerlink" title="我都有哪些作品？"></a>我都有哪些作品？</h2><h3 id="SteveScratch"><a href="#SteveScratch" class="headerlink" title="SteveScratch"></a>SteveScratch</h3><img src="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/08b59101a18b87d60fa68e050a0828381e30fd69.png" class="" title="SteveScratch 的图标">
-<img src="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/3ca8b78b87d6277fe448b87725381f30e824fc55.jpg" class="" title="SteveScratch 的模块">
-
-<p>我的一个二次开发版本的 Scratch 2.0，现在早已无人问津（哭）</p>
-<p><a href="http://tieba.baidu.com/p/5883977387" target="_blank" rel="noopener">SteveScratch 首发贴</a><br><a href="http://tieba.baidu.com/p/5953021529" target="_blank" rel="noopener">SteveScratch 第二弹</a><br><a href="https://gitee.com/SteveXMH/SteveScratch" target="_blank" rel="noopener">SteveScratch 源码库（已归档）</a><br><a href="https://github.com/Eureka0225/SteveScratch" target="_blank" rel="noopener">SteveScratch Github 源码库（非官方）</a></p>
-<h3 id="scratch-judge"><a href="#scratch-judge" class="headerlink" title="scratch-judge"></a><a href="https://www.npmjs.com/package/scratch-judge" target="_blank" rel="noopener">scratch-judge</a></h3><p>一个满足想拿 Scratch 3.0 做信息竞赛题目的骚人们的 judge 程序，用 js 编写。</p>
-<p>好像就这么多了（我太难了）</p>
-<h2 id="我会发啥呢？"><a href="#我会发啥呢？" class="headerlink" title="我会发啥呢？"></a>我会发啥呢？</h2><p>大多数情况我会想发一些我的编程灵感，也许我的能力有限，但是可以留在博客里参考，就当作是个数据库吧~<br>也许我会一个星期一个星期的写那么一两天，但是对于三分钟热度的我来说也许明天就忘了吧（笑）。<br>不管怎样，有想写的我都会往这里丢的，谢谢啦~</p>
-<img src="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/ThatISme.png" class="" title="这才是我">
-
-<h2 id="我的平台账户"><a href="#我的平台账户" class="headerlink" title="我的平台账户"></a>我的平台账户</h2><p><a href="https://space.bilibili.com/20875230" target="_blank" rel="noopener">Bilibili</a><br><a href="http://tieba.baidu.com/home/main?un=%E5%B0%8F%E8%90%A782" target="_blank" rel="noopener">Tieba</a><br><a href="https://afdian.net/%40SteveXMH" target="_blank" rel="noopener">Afdian</a><br><a href="https://scratch.mit.edu/users/Steve_xmh" target="_blank" rel="noopener">Scratch</a><br><a href="https://web.roblox.com/users/120897614/profile" target="_blank" rel="noopener">Roblox</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" data-id="ck2r7hg1800011o3ba8g2gf7f" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
