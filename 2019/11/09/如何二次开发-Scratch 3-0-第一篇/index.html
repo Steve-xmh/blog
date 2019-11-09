@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>如何二次开发 Scratch 3.0 第一篇 | 小萧的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="没错，我又来写二次开发了。一个周末连肝三篇文章的我无所畏惧！那么进入主题： Scratch 3.0 源代码的大致情况在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，">
+<meta name="keywords" content="编程,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何二次开发 Scratch 3.0 第一篇">
+<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;index.html">
+<meta property="og:site_name" content="小萧的个人博客">
+<meta property="og:description" content="没错，我又来写二次开发了。一个周末连肝三篇文章的我无所畏惧！那么进入主题： Scratch 3.0 源代码的大致情况在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;ThatISme.png">
+<meta property="og:updated_time" content="2019-11-09T15:23:24.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
+  
+  
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/blog/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">小萧的个人博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/blog/" id="subtitle">欢迎光临！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">首页</a>
+        
+          <a class="main-nav-link" href="/blog/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://steve-xmh.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-如何二次开发-Scratch 3-0-第一篇" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" class="article-date">
+  <time datetime="2019-11-09T13:53:41.040Z" itemprop="datePublished">2019-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何二次开发 Scratch 3.0 第一篇
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>没错，我又来写二次开发了。<br>一个周末连肝三篇文章的我无所畏惧！<br>那么进入主题：</p>
+<h2 id="Scratch-3-0-源代码的大致情况"><a href="#Scratch-3-0-源代码的大致情况" class="headerlink" title="Scratch 3.0 源代码的大致情况"></a>Scratch 3.0 源代码的大致情况</h2><p>在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。<br>为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。<br>也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，而这些模块很大部分可以独立工作而不受影响。<br>目前肉眼可见的模块大致这样：</p>
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/scratch.mit.edu_projects_editor.png" class="">
+
+<p>当然，本篇二次开发不会一一解释这些模块的具体用途，我们只需要了解一些地位比较高，比较重要的模块即可。</p>
+<ul>
+<li><a href="https://github.com/LLK/scratch-gui" target="_blank" rel="noopener">scratch-gui</a> 是将所有模块组合在一起的 GUI 框架。</li>
+<li><a href="https://github.com/LLK/scratch-vm" target="_blank" rel="noopener">scratch-vm</a> 是 Scratch 3.0 的虚拟机模块，是 Scratch 3.0 的核心。</li>
+<li><a href="https://github.com/LLK/scratch-render" target="_blank" rel="noopener">scratch-render</a> 是 Scratch 3.0 的渲染器模块，舞台画面由它负责。</li>
+<li><a href="https://github.com/LLK/scratch-blocks" target="_blank" rel="noopener">scratch-blocks</a> 是 Scratch 3.0 的代码编辑模块，通过它来拖拽模块编写代码。</li>
+</ul>
+<p>以上是我认为比较重要的模块，了解他们的具体用途对后面多模块开发有一定帮助。<br>一般只需要修改 UI（加自己的图标什么的）的话，你只需要使用 <code>scratch-gui</code> 即可。<br>但是如果你需要添加自定义模块，比如打印字符串的话，你可能还需要 <code>scratch-render</code> <code>scratch-vm</code> <code>scratch-blocks</code> 这三个。<br>一个负责处理文字显示，一个负责执行模块，一个负责给用户提供可操作的模块。<br>简言之，我一开始想尝试二次开发的时候，因为没有仔细看官方的<a href="https://github.com/LLK/scratch-gui/wiki" target="_blank" rel="noopener">简略文档</a>所以总是认为：</p>
+<p>“他们的虚拟机在哪啊？”<br>“这个语言是什么啊？根本不像 js 啊？”<br>“怎么加个模块路径还藏的这么深啊，什么 node_modules 什么的麻烦死了！”</p>
+<p>那么同样是为了排除问题，快速进行开发，请继续往下看。。。</p>
+<h2 id="如何进行多模块开发"><a href="#如何进行多模块开发" class="headerlink" title="如何进行多模块开发"></a>如何进行多模块开发</h2><p>我一开始想尝试二次开发 Scratch 3.0 的原因是为了将 SteveScratch 转移到 js 进行开发，但是因为过去有很多的自定义模块所以犯了不少困难。尤其是不清楚 nodejs 的<a href="https://docs.npmjs.com/cli/link.html" target="_blank" rel="noopener">模块链接</a>功能，结果导致我不得不打消二次开发的念头，现在 2019 学业跟的紧，更没有时间继续开发了。</p>
+<p>那么为了能够将模块相互链接，我们需要使用 npm 的链接功能，这个功能可以将某个 nodejs 工程链接到全局，然后再通过某个工程的引用链接来使用这个模块，这样你就不需要死盯着 node_modules 文件夹找模块写代码了。</p>
+<p>那么下面以 <code>scratch-vm</code> 和 <code>scratch-gui</code> 组合进行开发为例讲解如何</p>
+<p>首先克隆 <code>scratch-vm</code> 源码库到一个文件夹，进入文件夹后在终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-vm&gt; npm i</span><br></pre></td></tr></table></figure>
+
+<p>等待一会后，再克隆 <code>scratch-gui</code> 到任意文件夹（也可以和 <code>scratch-vm</code> 同一个文件夹，但最好就放一起），在这个文件夹打开终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm i</span><br><span class="line">path/to/scratch-gui&gt; npm ln path/to/scratch-vm</span><br></pre></td></tr></table></figure>
+
+<p>这样，npm 就会在 <code>scratch-gui</code> 的模块文件夹中创建指向刚刚我们克隆的 <code>scratch-vm</code> 的快捷方式（或者叫链接），<code>scratch-gui</code> 调用到 <code>scratch-vm</code> 的模块时将会从这个文件夹中寻找所需的模块。如果你把两个源代码放在一个文件夹的话，使用相对目录也没有问题。<br>大功告成！你已经知道如何链接模块，如果你需要删除链接的话，只需要输入在终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm r scratch-vm</span><br></pre></td></tr></table></figure>
+
+<p>注意：模块的名称是以 <code>package.json</code> 中的 <code>name</code> 键值为准，和你的源码所在文件夹的名称无关，也就是说你可以在链接前重命名文件夹，只要你喜欢 :)</p>
+<p>完成之后，现在你应该可以通过 <code>scratch-gui</code> 的 <code>webpack-dev-server</code> 来进行开发了，你在 <code>scratch-vm</code> 所做的更改都会作用在你的 <code>scratch-gui</code> 上。回到 <code>scratch-gui</code> 的工程目录，打开终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm start</span><br></pre></td></tr></table></figure>
+
+<p>就可以开始自由改造了~<br>后面会详细介绍各个模块的改造方式，所以呢，To be continued –&gt;</p>
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/ThatISme.png" class="" title="嘿嘿嘿">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck2rq1u3h0001jo3b3xo1hdfj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何二次开发 Scratch 2.0</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/">如何二次开发 Scratch 2.0</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/">第一个博客！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Steve Xiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">首页</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
