@@ -8,39 +8,39 @@
   <title>如何二次开发 Scratch 2.0 | 小萧的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本文原本是发在 Scratch 贴吧 里的，但是因为比较凌乱所以正好开了博客就稍作整理之后发在这里了。  前言你还在为 Flash Builder 的破解验证而烦恼吗？你还在为 Flash Builder 的超长加载而感到心烦吗？你还在为找不到 FlashDevelop 二次开发 Scratch 的教程而感到心累吗？一切都结束了！小萧经历千辛万苦终于集合了各位大佬的教程，成功的使用 FlashD">
-<meta name="keywords" content="ActionScript,编程">
+<meta name="keywords" content="编程,ActionScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何二次开发 Scratch 2.0">
-<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;index.html">
 <meta property="og:site_name" content="小萧的个人博客">
 <meta property="og:description" content="本文原本是发在 Scratch 贴吧 里的，但是因为比较凌乱所以正好开了博客就稍作整理之后发在这里了。  前言你还在为 Flash Builder 的破解验证而烦恼吗？你还在为 Flash Builder 的超长加载而感到心烦吗？你还在为找不到 FlashDevelop 二次开发 Scratch 的教程而感到心累吗？一切都结束了！小萧经历千辛万苦终于集合了各位大佬的教程，成功的使用 FlashD">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;05a07d63f6246b6001f0d95fe6f81a4c500fa24c.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;d0cae0246b600c338987b5e3174c510fd8f9a14c.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;4d8d7d600c338744e43b44575c0fd9f9d62aa04c.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;b9a16df40ad162d9d5a176331cdfa9ec8b13cdff.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;c05d1cd162d9f2d37f5e30c0a4ec8a136227ccff.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;b17874d9f2d3572c38ad88f38713632763d0c3ff.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;d970e4d3572c11df839eab0c6e2762d0f603c2ff.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;497a412c11dfa9eca16142386fd0f703908fc1ff.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;0da92cf33a87e9506b60e5431d385343faf2b4d7.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;e106b20f4bfbfbed5988275075f0f736aec31f71.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;1fa65dfbfbedab64f0a35ceffa36afc378311e71.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;a63c1c7b02087bf416c248c6ffd3572c11dfcf18.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;f052ededab64034f8c1cd329a2c379310b551d71.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;4044bd64034f78f002da8bdc74310a55b2191c71.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;b1d214087bf40ad17fcad8cc5a2c11dfa9ecce18.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;d0cae0246b600c33c197cde7174c510fd8f9a158.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;4d8d7d600c338744ac2b3c535c0fd9f9d62aa058.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;2ca3264e251f95ca73809e99c4177f3e660952d5.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;8be7331f95cad1c804cef008723e6709c83d51d5.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;b8e66ef0f736afc398d3304abe19ebc4b645126f.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;c359e136afc37931e8b78906e6c4b74542a9116f.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;1aedbb345982b2b7866830eb3cadcbef77099b57.png">
-<meta property="og:updated_time" content="2019-11-09T15:23:36.331Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;05a07d63f6246b6001f0d95fe6f81a4c500fa24c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;d0cae0246b600c338987b5e3174c510fd8f9a14c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;4d8d7d600c338744e43b44575c0fd9f9d62aa04c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;b9a16df40ad162d9d5a176331cdfa9ec8b13cdff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;c05d1cd162d9f2d37f5e30c0a4ec8a136227ccff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;b17874d9f2d3572c38ad88f38713632763d0c3ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;d970e4d3572c11df839eab0c6e2762d0f603c2ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;497a412c11dfa9eca16142386fd0f703908fc1ff.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;0da92cf33a87e9506b60e5431d385343faf2b4d7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;e106b20f4bfbfbed5988275075f0f736aec31f71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;1fa65dfbfbedab64f0a35ceffa36afc378311e71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;a63c1c7b02087bf416c248c6ffd3572c11dfcf18.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;f052ededab64034f8c1cd329a2c379310b551d71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;4044bd64034f78f002da8bdc74310a55b2191c71.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;b1d214087bf40ad17fcad8cc5a2c11dfa9ecce18.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;d0cae0246b600c33c197cde7174c510fd8f9a158.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;4d8d7d600c338744ac2b3c535c0fd9f9d62aa058.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;2ca3264e251f95ca73809e99c4177f3e660952d5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;8be7331f95cad1c804cef008723e6709c83d51d5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;b8e66ef0f736afc398d3304abe19ebc4b645126f.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;c359e136afc37931e8b78906e6c4b74542a9116f.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;1aedbb345982b2b7866830eb3cadcbef77099b57.png">
+<meta property="og:updated_time" content="2019-11-10T04:25:58.115Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0&#x2F;08b59101a18b87d6fa4fc5340a0828381f30fd32.png">
   
   
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
@@ -87,9 +87,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-如何二次开发-Scratch 2-0" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-如何二次开发-Scratch-2-0" class="article article-type-post" itemscope
+  itemprop="blogPost">
   <div class="article-meta">
-    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/" class="article-date">
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" class="article-date">
   <time datetime="2019-11-09T05:40:10.000Z" itemprop="datePublished">2019-11-09</time>
 </a>
     
@@ -97,19 +98,19 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
+    <header class="article-header">
+      
   
     <h1 class="article-title" itemprop="name">
       如何二次开发 Scratch 2.0
     </h1>
   
 
-      </header>
+    </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
+      <blockquote>
 <p>本文原本是发在 <a href="http://tieba.baidu.com/p/5868178050" target="_blank" rel="noopener">Scratch 贴吧</a> 里的，但是因为比较凌乱所以正好开了博客就稍作整理之后发在这里了。</p>
 </blockquote>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>你还在为 Flash Builder 的破解验证而烦恼吗？<br>你还在为 Flash Builder 的超长加载而感到心烦吗？<br>你还在为找不到 FlashDevelop 二次开发 Scratch 的教程而感到心累吗？<br>一切都结束了！<br>小萧经历千辛万苦终于集合了各位大佬的教程，成功的使用 FlashDevelop （以下简称FD）进行编译和 AIR 签名打包操作！<br>那么既然炫耀了（划掉）成功了结果，那么这里就开始告诉大家我的二次开发方式吧！</p>
@@ -119,93 +120,93 @@
 <p>Flex SDK 用于对 Flash 或者 ActionScript 的包装和组合调试，包括我们待会要进行的 AIR 签名和包装也要在 Flex SDK 完成。<br>那么我们先前往 Apache Flex 官网来下载 Flex SDK Installer：<a href="http://flex.apache.org/installer.html" target="_blank" rel="noopener">http://flex.apache.org/installer.html</a><br>当然，因为 Flash 和 AIR 引擎的更新换代，开发者需要自行选择安装的版本，所以我们下载的是安装器。<br>那么安装完毕后，你需要选择安装版本。<br>那么前往 Scratch 的 Github 源码库看看，最低支持 Flash 10.2 ，那么我们就选择这个版本，然后 Flex 和 AIR 的版本也会自动变更（这里小萧是选择了最新的版本来安装）。<br>那么下一步，你需要准备一个干净的文件夹（没有任何文件！）来存放 SDK，接着就开始下载了。<br><em>为什么我要先安装 Flex？因为这个玩意下的速度太##慢了</em></p>
 <h2 id="第二步：安装-Java"><a href="#第二步：安装-Java" class="headerlink" title="第二步：安装 Java"></a>第二步：安装 Java</h2><p>这个就不说了，<a href="https://java.com/zh_CN/" target="_blank" rel="noopener">链接在此</a><br>玩 MC 的就忽略此步</p>
 <h2 id="第三步：下载-FlashDevelop-FD"><a href="#第三步：下载-FlashDevelop-FD" class="headerlink" title="第三步：下载 FlashDevelop (FD)"></a>第三步：下载 FlashDevelop (FD)</h2><p>在安装 Flex SDK 的期间，我们可以开始安装 FD 了<br>首先进入官网：<a href="http://www.flashdevelop.org/" target="_blank" rel="noopener">点我进入</a><br>然后有个原谅色的下载按钮就可以进入论坛了<br>进入论坛往下翻就能找到“FlashDevelop *.*.* Setup”了<br>下载完之后，在安装组件步骤中选中中文语言（否则没有中文语言）</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/08b59101a18b87d6fa4fc5340a0828381f30fd32.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/08b59101a18b87d6fa4fc5340a0828381f30fd32.png" class="">
 
 <p>这下子你就可以选择好路径开始安装了~</p>
 <h2 id="第四步：配置-FlashDevelop"><a href="#第四步：配置-FlashDevelop" class="headerlink" title="第四步：配置 FlashDevelop"></a>第四步：配置 FlashDevelop</h2><p>等待 SDK 安装完毕后，记住你存放 SDK 的文件夹，然后启动 FD，你可能会看到如下页面：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/05a07d63f6246b6001f0d95fe6f81a4c500fa24c.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/05a07d63f6246b6001f0d95fe6f81a4c500fa24c.png" class="">
 
 <p>虽然我们在安装程序已经选中了中文组件，但是我们还是需要在设置中设置显示语言。<br>打开 Tools 菜单，打开 Program Settings：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/d0cae0246b600c338987b5e3174c510fd8f9a14c.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/d0cae0246b600c338987b5e3174c510fd8f9a14c.png" class="">
 
 <p>在打开的设置里找到 Selected Locale 修改成 zh_CN 后重启即可<br>如果配置项太多，右上角有个过滤设置 Filter settings，搜索 locale 就找到了：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/4d8d7d600c338744e43b44575c0fd9f9d62aa04c.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/4d8d7d600c338744e43b44575c0fd9f9d62aa04c.png" class="">
 
 <h2 id="第五步：下载-Scratch-2-0-源代码"><a href="#第五步：下载-Scratch-2-0-源代码" class="headerlink" title="第五步：下载 Scratch 2.0 源代码"></a>第五步：下载 Scratch 2.0 源代码</h2><p>直接从 <a href="https://github.com/LLK/scratch-flash" target="_blank" rel="noopener">Scratch 2.0 源码库</a> 下载即可（或者 <a href="https://github.com/LLK/scratch-flash/archive/develop.zip" target="_blank" rel="noopener">直接点我下载压缩包</a>）<br>下载完毕后先放着，下面会用到。</p>
 <h2 id="第六步：新建和配置工程"><a href="#第六步：新建和配置工程" class="headerlink" title="第六步：新建和配置工程"></a>第六步：新建和配置工程</h2><p>那么回到 FD ，我们要开始新建在 FD 的 Scratch 工程了。<br>首先点击“项目”菜单栏，找到“新建项目”并打开：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/b9a16df40ad162d9d5a176331cdfa9ec8b13cdff.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/b9a16df40ad162d9d5a176331cdfa9ec8b13cdff.png" class="">
 
 <p>那么你打开的时候页面应该是这样的：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/c05d1cd162d9f2d37f5e30c0a4ec8a136227ccff.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/c05d1cd162d9f2d37f5e30c0a4ec8a136227ccff.png" class="">
 
 <p>首先还是选择你喜欢的位置，名称也是随意的，包名留空。项目类型的话选择 “AIR AS3 Projector” 然后确定创建工程：<br>第一次创建工程的话会出现一点点模板配置，按自己喜好填写即可~<br>那么我们看到右边的项目已经多出了一点东西，这个就是我们的工程目录了：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/b17874d9f2d3572c38ad88f38713632763d0c3ff.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/b17874d9f2d3572c38ad88f38713632763d0c3ff.png" class="">
 
 <p>那么新建工程已经完毕，接下来我们需要进行部分的配置了。<br>首先还是在项目菜单栏里，找到底下的属性：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/d970e4d3572c11df839eab0c6e2762d0f603c2ff.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/d970e4d3572c11df839eab0c6e2762d0f603c2ff.png" class="">
 
 <p>在里面一部分修改项是不能用的，需要在源码中修改才可以，那么首先打开 SDK 选项卡，找到“自定义 SDK”，把我们刚刚下载的独立 Flex SDK 路径填入：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/497a412c11dfa9eca16142386fd0f703908fc1ff.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/497a412c11dfa9eca16142386fd0f703908fc1ff.png" class="">
 
 <p>那么再打开“编译器选项”选项卡，找到”Additional Compiler Options”（编译器参数选项），因为我们的 Scratch 源码有一部分常量需要在编译器启动时提供，源码内不提供，而且不提供这些常量的话 Scratch 反而还无法编译(WTH)。<br>所以点击省略号打开，填入以下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-define+=SCRATCH::allow3d,false</span><br><span class="line">-define+=SCRATCH::revision,&apos;e267f37&apos;</span><br></pre></td></tr></table></figure>
 <p>（注：如果你的 Flex SDK 中的 Flash Player 版本大于或等于 11.6 的话，你可以把 allow3d 的常量值修改为 true（虽然没啥用））<br>这两个是必要内容，其他的教程会填入其他内容，这里就不需要了，最后应该是这样的：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/0da92cf33a87e9506b60e5431d385343faf2b4d7.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/0da92cf33a87e9506b60e5431d385343faf2b4d7.png" class="">
 
 <h2 id="第七步：转移源码到工程"><a href="#第七步：转移源码到工程" class="headerlink" title="第七步：转移源码到工程"></a>第七步：转移源码到工程</h2><p>配置工程完毕后，我们就要把 Scratch 的源代码合并到我们的工程里。<br>那么首先看到 FD 的工程目录，右键我们的工程，选择“资源管理器”打开工程文件夹：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/e106b20f4bfbfbed5988275075f0f736aec31f71.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/e106b20f4bfbfbed5988275075f0f736aec31f71.png" class="">
 
 <p>将第五步下好的源码包解压，将其中的 libs 文件夹和 src 文件夹解压到工程目录内：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/1fa65dfbfbedab64f0a35ceffa36afc378311e71.png" class="">
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/a63c1c7b02087bf416c248c6ffd3572c11dfcf18.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/1fa65dfbfbedab64f0a35ceffa36afc378311e71.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/a63c1c7b02087bf416c248c6ffd3572c11dfcf18.png" class="">
 
 <p>完成之后可以看到 FD 内的工程目录被刷新了：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/f052ededab64034f8c1cd329a2c379310b551d71.png" class="" title="因为原帖的问题，图里没有 libs 文件夹 :(">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/f052ededab64034f8c1cd329a2c379310b551d71.png" class="" title="因为原帖的问题，图里没有 libs 文件夹 :(">
 
 <p>接下来，我们要设置主运行程序，FD 默认会创建 Main.as 作为第一个运行的程序。<br>但是在 Scratch 的源码中，Scratch.as 才是主程序。<br>所以我们右击 Scratch.as ，选择“设为文档类”（奇怪的翻译？），然后删除 Main.as 即可（如果你不需要了的话）：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/4044bd64034f78f002da8bdc74310a55b2191c71.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/4044bd64034f78f002da8bdc74310a55b2191c71.png" class="">
 
 <p>然后将 Scratch 2.0 需要使用的几个库添加到库中，在工程浏览器中展开 libs 文件夹，将内部的 .swc 文件选中，右键选择 “添加到库”</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/b1d214087bf40ad17fcad8cc5a2c11dfa9ecce18.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/b1d214087bf40ad17fcad8cc5a2c11dfa9ecce18.png" class="">
 
 <h2 id="第八步：调试和编译"><a href="#第八步：调试和编译" class="headerlink" title="第八步：调试和编译"></a>第八步：调试和编译</h2><p>终于要见到自己亲手编译的 Scratch 了（大开心）<br>首先我们看一下是否可以进行编译，这里是各种编译的方法：</p>
 <ol>
 <li>点击蓝色的小箭头直接测试程序：</li>
 </ol>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/d0cae0246b600c33c197cde7174c510fd8f9a158.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/d0cae0246b600c33c197cde7174c510fd8f9a158.png" class="">
 
 <ol start="2">
 <li>在项目菜单栏里点击“运行项目”或“编译项目”（这里不能真正打包成 AIR 程序）：</li>
 </ol>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/4d8d7d600c338744ac2b3c535c0fd9f9d62aa058.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/4d8d7d600c338744ac2b3c535c0fd9f9d62aa058.png" class="">
 
 <ol start="3">
 <li>按下 F5 或 F8 快速测试或编译</li>
 </ol>
 <p>如果无法编译的话，请确定你的 Flex SDK 是否下载完整，并前往第一步重新安装。</p>
 <p>最终结果应该是这样的：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/2ca3264e251f95ca73809e99c4177f3e660952d5.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/2ca3264e251f95ca73809e99c4177f3e660952d5.png" class="">
 
 <p>倘若你能够打开上面的页面，恭喜你！你可以立即开始二次开发了！<br>但是如果你在调试的时候出错了的话，比如说出现这个错误：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/8be7331f95cad1c804cef008723e6709c83d51d5.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/8be7331f95cad1c804cef008723e6709c83d51d5.png" class="">
 
 <p>如果出现了这个错误，请继续往下看 ↓</p>
 <h3 id="第八步·2：修正标识符"><a href="#第八步·2：修正标识符" class="headerlink" title="第八步·2：修正标识符"></a>第八步·2：修正标识符</h3><p>大家如果都下载了最新版本那么肯定会遇到如同上面的错误，虽然不知道原因，但是为了可以顺利编译，我们需要对其稍作修改以进行调试<br>首先还是来到工程文件夹，找到 application.xml 文件（这个步骤可以在 FD 操作），然后第二行就可以看到如上错误中出现的那个链接<br>我们要修改的就是这个链接尾巴的那串数字，实际上那个是 AIR 的版本号<br>如果这个版本号不和我们所用的 AIR 版本号一样的话，就会出现这个问题<br>所以如果你还记得 AIR 的版本的话就替换这个版本，那就直接替换版本号即可<br>但是如果你忘记了的话，就随我继续往下做：<br>打开你的 Flex SDK 目录，找到 bin 文件夹，这里你就可以找到 AIR 的调试启动器了：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/b8e66ef0f736afc398d3304abe19ebc4b645126f.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/b8e66ef0f736afc398d3304abe19ebc4b645126f.png" class="">
 
 <p>右键，打开属性，在详细信息选项卡里你就能看到产品版本号了：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/c359e136afc37931e8b78906e6c4b74542a9116f.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/c359e136afc37931e8b78906e6c4b74542a9116f.png" class="">
 
 <p>那么替换版本号，保存之后尝试编译一下，应该就成功了~</p>
 <h2 id="最终步：打包工程为-AIR-程序"><a href="#最终步：打包工程为-AIR-程序" class="headerlink" title="最终步：打包工程为 AIR 程序"></a>最终步：打包工程为 AIR 程序</h2><p>当然最终我们是需要把它编译成发行版本的，只是自己玩算啥呢<br>那么为了可以打包成 AIR，我们首先需要一个签名文件，这个签名文件只需要生成一次就可以了（实际上每隔一年就需要重新生成一份）<br>而且为了方便，FD 为我们生成了一些 .bat 批处理文件来帮助我们打包和生成签名<br>这些批处理存放在你的工程文件夹中的 bat 文件夹里：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/1aedbb345982b2b7866830eb3cadcbef77099b57.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/1aedbb345982b2b7866830eb3cadcbef77099b57.png" class="">
 
 <p>而下面的那个 .p12 文件就是我们待会需要的签名文件了<br>需要获取新的签名文件，直接双击 CreateCertificate.bat 运行批处理即可<br>生成完毕后就剩下最终的打包文件了<br>双击 PackageApp.bat 来全自动打包文件，稍等片刻后，在工程文件夹中的 air 文件夹里就会出现我们需要的 .air 打包文件了<br>唯一剩下的就是你如何去发布了~</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/" data-id="ck2rq1u3a0000jo3b4tvmem1a" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" data-id="ck2slp7md0001vg3b9hbkggd9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -213,10 +214,10 @@
     </footer>
   </div>
   
-    
+  
 <nav id="article-nav">
   
-    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
@@ -236,6 +237,28 @@
   
 </article>
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<section id="comments">
+  <div id="gitalk_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">comments powered by
+        Gitalk.</a></noscript>
+  </div>
+  <script>
+    const gitalk = new Gitalk({
+      clientID: 'ac816fe4bd924ec0c8f7',
+      clientSecret: 'de461fc387072aeffb7b5e9739e903b0721d1307',
+      repo: 'blog',
+      owner: 'Steve-xmh',
+      admin: ['Steve-xmh'],
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: 'true'  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk_thread')
+  </script>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -279,11 +302,11 @@
       <ul>
         
           <li>
-            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
           </li>
         
           <li>
-            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/">如何二次开发 Scratch 2.0</a>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/">如何二次开发 Scratch 2.0</a>
           </li>
         
           <li>

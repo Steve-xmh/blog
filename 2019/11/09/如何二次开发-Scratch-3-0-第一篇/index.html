@@ -8,18 +8,18 @@
   <title>如何二次开发 Scratch 3.0 第一篇 | 小萧的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="没错，我又来写二次开发了。一个周末连肝三篇文章的我无所畏惧！那么进入主题： Scratch 3.0 源代码的大致情况在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，">
-<meta name="keywords" content="编程,JavaScript">
+<meta name="keywords" content="JavaScript,编程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何二次开发 Scratch 3.0 第一篇">
-<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;index.html">
 <meta property="og:site_name" content="小萧的个人博客">
 <meta property="og:description" content="没错，我又来写二次开发了。一个周末连肝三篇文章的我无所畏惧！那么进入主题： Scratch 3.0 源代码的大致情况在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;ThatISme.png">
-<meta property="og:updated_time" content="2019-11-09T15:23:24.785Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;ThatISme.png">
+<meta property="og:updated_time" content="2019-11-10T04:33:44.048Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
   
   
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
@@ -66,9 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-如何二次开发-Scratch 3-0-第一篇" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-如何二次开发-Scratch-3-0-第一篇" class="article article-type-post" itemscope
+  itemprop="blogPost">
   <div class="article-meta">
-    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" class="article-date">
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" class="article-date">
   <time datetime="2019-11-09T13:53:41.040Z" itemprop="datePublished">2019-11-09</time>
 </a>
     
@@ -76,21 +77,21 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
+    <header class="article-header">
+      
   
     <h1 class="article-title" itemprop="name">
       如何二次开发 Scratch 3.0 第一篇
     </h1>
   
 
-      </header>
+    </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>没错，我又来写二次开发了。<br>一个周末连肝三篇文章的我无所畏惧！<br>那么进入主题：</p>
+      <p>没错，我又来写二次开发了。<br>一个周末连肝三篇文章的我无所畏惧！<br>那么进入主题：</p>
 <h2 id="Scratch-3-0-源代码的大致情况"><a href="#Scratch-3-0-源代码的大致情况" class="headerlink" title="Scratch 3.0 源代码的大致情况"></a>Scratch 3.0 源代码的大致情况</h2><p>在着手二次开发 Scratch 3.0 之前，我们先要了解目前的 Scratch 3.0 的开发布局。<br>为了提升代码的可用性（其实是迎合谷歌的 Blocky），Scratch 3.0 被拆分成许多部分。<br>也就是说你看到的 Scratch 3.0 成品其实是由多个不同作用的模块组合而成的，而这些模块很大部分可以独立工作而不受影响。<br>目前肉眼可见的模块大致这样：</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/scratch.mit.edu_projects_editor.png" class="">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/scratch.mit.edu_projects_editor.png" class="">
 
 <p>当然，本篇二次开发不会一一解释这些模块的具体用途，我们只需要了解一些地位比较高，比较重要的模块即可。</p>
 <ul>
@@ -106,25 +107,25 @@
 <p>那么为了能够将模块相互链接，我们需要使用 npm 的链接功能，这个功能可以将某个 nodejs 工程链接到全局，然后再通过某个工程的引用链接来使用这个模块，这样你就不需要死盯着 node_modules 文件夹找模块写代码了。</p>
 <p>那么下面以 <code>scratch-vm</code> 和 <code>scratch-gui</code> 组合进行开发为例讲解如何</p>
 <p>首先克隆 <code>scratch-vm</code> 源码库到一个文件夹，进入文件夹后在终端输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-vm&gt; npm i</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-vm&gt; npm i</span><br></pre></td></tr></table></figure>
 
 <p>等待一会后，再克隆 <code>scratch-gui</code> 到任意文件夹（也可以和 <code>scratch-vm</code> 同一个文件夹，但最好就放一起），在这个文件夹打开终端输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm i</span><br><span class="line">path/to/scratch-gui&gt; npm ln path/to/scratch-vm</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm i</span><br><span class="line">path/to/scratch-gui&gt; npm ln path/to/scratch-vm</span><br></pre></td></tr></table></figure>
 
 <p>这样，npm 就会在 <code>scratch-gui</code> 的模块文件夹中创建指向刚刚我们克隆的 <code>scratch-vm</code> 的快捷方式（或者叫链接），<code>scratch-gui</code> 调用到 <code>scratch-vm</code> 的模块时将会从这个文件夹中寻找所需的模块。如果你把两个源代码放在一个文件夹的话，使用相对目录也没有问题。<br>大功告成！你已经知道如何链接模块，如果你需要删除链接的话，只需要输入在终端输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm r scratch-vm</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm r scratch-vm</span><br></pre></td></tr></table></figure>
 
 <p>注意：模块的名称是以 <code>package.json</code> 中的 <code>name</code> 键值为准，和你的源码所在文件夹的名称无关，也就是说你可以在链接前重命名文件夹，只要你喜欢 :)</p>
 <p>完成之后，现在你应该可以通过 <code>scratch-gui</code> 的 <code>webpack-dev-server</code> 来进行开发了，你在 <code>scratch-vm</code> 所做的更改都会作用在你的 <code>scratch-gui</code> 上。回到 <code>scratch-gui</code> 的工程目录，打开终端输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm start</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path/to/scratch-gui&gt; npm start</span><br></pre></td></tr></table></figure>
 
 <p>就可以开始自由改造了~<br>后面会详细介绍各个模块的改造方式，所以呢，To be continued –&gt;</p>
-<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/ThatISme.png" class="" title="嘿嘿嘿">
+<img src="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/ThatISme.png" class="" title="嘿嘿嘿">
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck2rq1u3h0001jo3b3xo1hdfj" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck2slp7mi0003vg3benn36ajl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -132,11 +133,11 @@
     </footer>
   </div>
   
-    
+  
 <nav id="article-nav">
   
   
-    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">如何二次开发 Scratch 2.0</div>
     </a>
@@ -146,6 +147,28 @@
   
 </article>
 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<section id="comments">
+  <div id="gitalk_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">comments powered by
+        Gitalk.</a></noscript>
+  </div>
+  <script>
+    const gitalk = new Gitalk({
+      clientID: 'ac816fe4bd924ec0c8f7',
+      clientSecret: 'de461fc387072aeffb7b5e9739e903b0721d1307',
+      repo: 'blog',
+      owner: 'Steve-xmh',
+      admin: ['Steve-xmh'],
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: 'true'  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk_thread')
+  </script>
+</section>
 </section>
         
           <aside id="sidebar">
@@ -189,11 +212,11 @@
       <ul>
         
           <li>
-            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%203-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
           </li>
         
           <li>
-            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch%202-0/">如何二次开发 Scratch 2.0</a>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/">如何二次开发 Scratch 2.0</a>
           </li>
         
           <li>
