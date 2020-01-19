@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;ThatISme.png">
-<meta property="og:updated_time" content="2019-11-17T05:53:05.602Z">
+<meta property="og:updated_time" content="2019-12-29T02:12:32.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2019&#x2F;11&#x2F;09&#x2F;%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87&#x2F;scratch.mit.edu_projects_editor.png">
   
@@ -104,7 +104,7 @@
 <p>以上是我认为比较重要的模块，了解他们的具体用途对后面多模块开发有一定帮助。<br>一般只需要修改 UI（加自己的图标什么的）的话，你只需要使用 <code>scratch-gui</code> 即可。<br>但是如果你需要添加自定义模块，比如打印字符串的话，你可能还需要 <code>scratch-render</code> <code>scratch-vm</code> <code>scratch-blocks</code> 这三个。<br>一个负责处理文字显示，一个负责执行模块，一个负责给用户提供可操作的模块。<br>简言之，我一开始想尝试二次开发的时候，因为没有仔细看官方的<a href="https://github.com/LLK/scratch-gui/wiki" target="_blank" rel="noopener">简略文档</a>所以总是认为：</p>
 <p>“他们的虚拟机在哪啊？”<br>“这个语言是什么啊？根本不像 js 啊？”<br>“怎么加个模块路径还藏的这么深啊，什么 node_modules 什么的麻烦死了！”</p>
 <p>那么同样是为了排除问题，快速进行开发，请继续往下看。。。</p>
-<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>首先，十分建议大家使用 Linux 系统（Ubuntu, MacOS 之类的）来作为搭建环境的主操作系统，因为 Windows 的命令行单条命令长度最大只能达到 8192 个字符。<br>而 <code>scratch-blocks</code> 的预发行流程所需要执行的编译器参数（这些参数都是文件路径，而且文件非常多（模块化带来的缺陷啊））已经远远超过 8192 个字符，再加上 google 的奇葩编译参数尿性， <code>scratch-blocks</code> 不能在 Windows 正确编译。<br>（如果有大佬能研究出编译或链接方式的话请在下方评论）<br>倘若你真的是 Windows 党的话，你也可以使用 Windows Subsystem for Linux (WSL) 子系统来在 Windows 里运行 Ubuntu。<br>VS Code 也有可以方便与 WSL 系统交互的远程开发插件，详情<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack" target="_blank" rel="noopener">戳这里前往插件下载</a>。<br>那么下面就假定大家已经克隆了源码库到一个文件夹里，进行多模块之间的链接。</p>
+<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><p>首先，十分建议大家使用 Linux 系统（Ubuntu, MacOS 之类的）来作为搭建环境的主操作系统，因为 Windows 的命令行单条命令长度最大只能达到 8192 个字符。<br>而 <code>scratch-blocks</code> 的预发行流程所需要执行的编译器参数（这些参数都是文件路径，而且文件非常多（模块化带来的缺陷啊））已经远远超过 8192 个字符，再加上 google 的奇葩编译参数尿性， <code>scratch-blocks</code> 不能在 Windows 正确编译。<br>（似乎可以使用 python 安装程序最后的一个选项来解锁命令行参数限制？）<br>倘若你真的是 Windows 党的话，你也可以使用 Windows Subsystem for Linux (WSL) 子系统来在 Windows 里运行 Ubuntu。<br>VS Code 也有可以方便与 WSL 系统交互的远程开发插件，详情<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack" target="_blank" rel="noopener">戳这里前往插件下载</a>。<br>那么下面就假定大家已经克隆了源码库到一个文件夹里，进行多模块之间的链接。</p>
 <h2 id="如何进行多模块开发"><a href="#如何进行多模块开发" class="headerlink" title="如何进行多模块开发"></a>如何进行多模块开发</h2><p>我一开始想尝试二次开发 Scratch 3.0 的原因是为了将 SteveScratch 转移到 js 进行开发，但是因为过去有很多的自定义模块所以犯了不少困难。尤其是不清楚 nodejs 的<a href="https://docs.npmjs.com/cli/link.html" target="_blank" rel="noopener">模块链接</a>功能，结果导致我不得不打消二次开发的念头，现在 2019 学业跟的紧，更没有时间继续开发了。</p>
 <p>那么为了能够将模块相互链接，我们需要使用 npm 的链接功能，这个功能可以将某个 nodejs 工程链接到全局，然后再通过某个工程的引用链接来使用这个模块，这样你就不需要死盯着 node_modules 文件夹找模块写代码了。</p>
 <p>那么下面以 <code>scratch-vm</code> 和 <code>scratch-gui</code> 组合进行开发为例讲解如何</p>
@@ -127,7 +127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck32ljxkg00013c3bd5n27bxi" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck5kwceih00031k3b5s3w837y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -236,10 +236,17 @@
       </div>
       <footer id="footer">
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Steve Xiao<br>
+  <div class="outer" style="display: flex;">
+    <div id="footer-info" class="inner" style="display: inline-block; flex: auto; word-wrap: none;">
+      &copy; 2020 Steve Xiao<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <div style="display: inline-block; flex: 1;"></div>
+    <div id="footer-info" class="inner" style="display: inline-block; flex: 0;">
+      友情链接
+      
+        <a href="https://blog.hydrostic.com/" target="_blank" rel="noopener">Hydrostic</a>
+      
     </div>
   </div>
 </footer>
