@@ -64,6 +64,210 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-librewebapiv2doc" class="article article-type-post" itemscope
+  itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2020/03/21/librewebapiv2doc/" class="article-date">
+  <time datetime="2020-03-21T09:47:44.000Z" itemprop="datePublished">2020-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档（草案）</a>
+    </h1>
+  
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      <p>众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。</p>
+<blockquote>
+<p>注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！</p>
+</blockquote>
+<h2 id="API-文档"><a href="#API-文档" class="headerlink" title="API 文档"></a>API 文档</h2><p>所有链接均使用 <code>https://redlist.zerlight.top:1100/v2</code> 为链接，调用方法为 <code>POST</code>。表单数据均为 JSON，FormData 或 URIEncodedForm。</p>
+<p>所有表单以 <code>method</code> 确定调用功能类型和返回值，总共有以下值可以选择：</p>
+<ul>
+<li><code>isInList</code> 获取一个用户是否在红名单内</li>
+<li><code>getList</code> 获取以 JSON 数组为格式的在红名单内的所有用户名单</li>
+<li><code>getImportableList</code> 获取以 Scratch 链表文本为格式的在红名单内的所有用户名单</li>
+</ul>
+<p>以下为对应功能的参数集：</p>
+<h3 id="isInList"><a href="#isInList" class="headerlink" title="isInList"></a>isInList</h3><table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>默认值</th>
+<th>可选值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>platform</td>
+<td></td>
+<td>kada,acamp</td>
+<td>社区平台，如不填则为所有平台</td>
+</tr>
+<tr>
+<td>format</td>
+<td>username</td>
+<td>username,id</td>
+<td>输入的名称类型，是用户名还是用户ID编号</td>
+</tr>
+<tr>
+<td>value</td>
+<td></td>
+<td></td>
+<td>需要检测的用户名或用户ID</td>
+</tr>
+</tbody></table>
+<p>返回值：</p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>message</td>
+<td>string</td>
+<td>返回 success 即成功，否则返回错误原因</td>
+</tr>
+<tr>
+<td>status</td>
+<td>boolean</td>
+<td>返回用户状态，如果为 <code>true</code> 则在红名单内，<code>false</code> 反之亦然</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>string/null</td>
+<td>如果 status 为 <code>true</code> 时这里是被登记入红名单的原因，否则为 <code>null</code></td>
+</tr>
+<tr>
+<td>### getList</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>默认值</th>
+<th>可选值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>platform</td>
+<td></td>
+<td>kada,acamp</td>
+<td>社区平台，如不填则为所有平台</td>
+</tr>
+</tbody></table>
+<p>返回值：</p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>message</td>
+<td>string</td>
+<td>返回 success 即成功，否则返回错误原因</td>
+</tr>
+<tr>
+<td>list</td>
+<td>见下表</td>
+<td>在红名单内的所有用户名单</td>
+</tr>
+</tbody></table>
+<p>数组成员类型结构：</p>
+<table>
+<thead>
+<tr>
+<th>成员名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>string</td>
+<td>用户的名称</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>string</td>
+<td>用户被登记入红名单的原因</td>
+</tr>
+</tbody></table>
+<h3 id="getImportableList"><a href="#getImportableList" class="headerlink" title="getImportableList"></a>getImportableList</h3><table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>默认值</th>
+<th>可选值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>platform</td>
+<td></td>
+<td>kada,acamp</td>
+<td>社区平台，如不填则为所有平台</td>
+</tr>
+<tr>
+<td>type</td>
+<td>username</td>
+<td>username,id,reason</td>
+<td>返回用户名称还是用户ID</td>
+</tr>
+</tbody></table>
+<p>返回值：一个以 Scratch 链表文本为格式的在红名单内的所有用户名单，可以直接导入到 Scratch 的链表变量中。</p>
+<h2 id="使用范例"><a href="#使用范例" class="headerlink" title="使用范例"></a>使用范例</h2><h3 id="isInList-1"><a href="#isInList-1" class="headerlink" title="isInList"></a>isInList</h3><p>客户端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/v2</span> HTTP/1.1</span><br><span class="line"><span class="attribute">HOST</span>: redlist.zerlight.top:1100</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"method": "isInList",</span><br><span class="line">	"format": "username",</span><br><span class="line">	"platform": "acamp",</span><br><span class="line">	"value": "Zerdot"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>服务端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"message": "success",</span><br><span class="line">	"status": true,</span><br><span class="line">	"reason": "此为示例用户，当你看到这个永久名单，说明你的请求有问题或者你本来就是要测试才调用这个的，请更正你的请求数据后重试"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="getList"><a href="#getList" class="headerlink" title="getList"></a>getList</h3><p>客户端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/v2</span> HTTP/1.1</span><br><span class="line"><span class="attribute">HOST</span>: redlist.zerlight.top:1100</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"method": "getList",</span><br><span class="line">	"platform": "acamp"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>服务端（因列表数据太多所以只列举一个）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"message": "success",</span><br><span class="line">	"list": [&#123;</span><br><span class="line">		"name": "Zerdot",</span><br><span class="line">		"reason": "此为示例用户，当你看到这个永久名单，说明你的请求有问题或者你本来就是要测试才调用这个的，请更正你的请求数据后重试"</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="getImportableList-1"><a href="#getImportableList-1" class="headerlink" title="getImportableList"></a>getImportableList</h3><p>客户端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/v2</span> HTTP/1.1</span><br><span class="line"><span class="attribute">HOST</span>: redlist.zerlight.top:1100</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"method": "getImportableList",</span><br><span class="line">	"platform": "acamp",</span><br><span class="line">	"type": "username"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>服务端：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: text/plain</span><br><span class="line"></span><br><span class="line">Umberto Unity</span><br><span class="line">Carla Caring</span><br><span class="line">Katie Kindness</span><br><span class="line">Fred Friendship</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://steve-xmh.github.io/blog/2020/03/21/librewebapiv2doc/" data-id="ck81fubfl0001g03bey7rfp33" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-xxdwysjtrmzdythtml" class="article article-type-post" itemscope
   itemprop="blogPost">
   <div class="article-meta">
@@ -110,7 +314,7 @@
 
 <p><code>&lt;p&gt;</code>称作一个元素的开头，也叫作<strong>开始标签</strong>（Opening Tag）。这个标签会用<code>&lt;&gt;</code>两个符号括在一起，里面的开头会写上这个元素的名称（也就是<code>p</code>），通常名称后面还会写一些关于这个元素的一些属性，后面会说到。</p>
 <p><code>&lt;/p&gt;</code>是这个元素的结尾，也叫作<strong>闭合标签</strong>（Closing Tag）。和开始标签类似，但是元素名称的开头需要带一个斜杠（<code>/</code>）表示这是个闭合标签，闭合标签里面除了名称什么都不能包含。</p>
-<p>但是有这么一种特别的元素，它并不需要闭合标签，也就是这个元素里面不会，它在一开始就关上了（误）：</p>
+<p>但是有这么一种特别的元素，它并不需要闭合标签，也就是这个元素里面不会有内容出现，它在一开始就关上了（误）：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span> <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这样的元素称之为<strong>空元素</strong>，也就是没有内容的元素，他的行为依照下文的属性而定。</p>
@@ -169,7 +373,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 第一行可以先写标题 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Todo<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span>Status<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>HTML Tutorial<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Finished<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>CSS Tutorial<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Working<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>JS Tutorial<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>Working<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>效果应该是这样的：</p>
-<table><tr><th>Todo</th><th>Status</th></tr><tr><td>HTMLTutorial</td><td>Finished</td></tr><tr><td>CSSTutorial</td><td>Working</td></tr><tr><td>JSTutorial</td><td>Working</td></tr></table>
+<table><tr><th>Todo</th><th>Status</th></tr><tr><td>HTML Tutorial</td><td>Finished</td></tr><tr><td>CSS Tutorial</td><td>Working</td></tr><tr><td>JS Tutorial</td><td>Working</td></tr></table>
 
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>其实 HTML 学会了概念，其余的元素的使用也都是套标准（其实俺就是一个字，懒）。绝大多数的 HTML 教程都可以从 <a href="https://developer.mozilla.org/zh-CN/docs/Learn/HTML" target="_blank" rel="noopener">MDN</a> 里找到，本文也有部分内容借鉴了 MDN（来找找看？）。那么祝大家做出属于自己的网页！</p>
 <p>啥？你还觉得不好看？</p>
@@ -181,7 +385,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2020/01/31/xxdwysjtrmzdythtml/" data-id="ck61nws8b0000qw3ba3qd5yi9" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2020/01/31/xxdwysjtrmzdythtml/" data-id="ck81fubfq0003g03b3k4wg53q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li></ul>
@@ -255,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck61nwsa9000fqw3baqun2do3" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ck81fubg4000eg03b1b8a3b7f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -387,7 +591,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" data-id="ck61nwsa7000eqw3bcdr3gf9d" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" data-id="ck81fubgm000ig03be2g4906a" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -443,7 +647,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" data-id="ck61nws9v000bqw3b2rs997u0" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" data-id="ck81fubgk000hg03bgm4rd4tr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
@@ -488,7 +692,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
     </div>
   </div>
 
@@ -499,6 +703,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档（草案）</a>
+          </li>
         
           <li>
             <a href="/blog/2020/01/31/xxdwysjtrmzdythtml/">小萧的网页三件套入门之第一套：HTML</a>
@@ -537,9 +745,15 @@
       
         <a href="https://blog.hydrostic.com/" target="_blank" rel="noopener">Hydrostic</a>
       
-        <a href="https://www.jishuzhai.xyz/" target="_blank" rel="noopener">Xiaoji</a>
+        <a href="https://blog.alexcui.top/" target="_blank" rel="noopener">Alex Cui</a>
+      
+        <a href="https://www.abelchen.xyz/" target="_blank" rel="noopener">Xiaoji</a>
       
         <a href="https://www.hualeipw.top/" target="_blank" rel="noopener">Hualei</a>
+      
+        <a href="https://www.sparrowhe.top/" target="_blank" rel="noopener">Sparrow</a>
+      
+        <a href="https://www.wumouren.xyz/" target="_blank" rel="noopener">某人的天地</a>
       
     </div>
   </div>
