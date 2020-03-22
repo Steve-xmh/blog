@@ -5,16 +5,17 @@
   
 
   
-  <title>Libra 红名单 WebAPI v2 文档（草案） | 小萧的个人博客</title>
+  <title>Libra 红名单 WebAPI v2 文档 | 小萧的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。  注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！  API 文档所有链接均使用 https:&#x2F;&#x2F;redlist.zerlight.top:1100&#x2F;v2 为链接，调用方法">
+  <meta name="description" content="众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。 该文档的内容以通过审核，现已可用。  注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！旧版 v1 API 链接  API 文档所有链接均使用 https:&#x2F;&#x2F;redlist">
+<meta name="keywords" content="Scratch,编程,版权维护">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Libra 红名单 WebAPI v2 文档（草案）">
+<meta property="og:title" content="Libra 红名单 WebAPI v2 文档">
 <meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2020&#x2F;03&#x2F;21&#x2F;librewebapiv2doc&#x2F;index.html">
 <meta property="og:site_name" content="小萧的个人博客">
-<meta property="og:description" content="众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。  注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！  API 文档所有链接均使用 https:&#x2F;&#x2F;redlist.zerlight.top:1100&#x2F;v2 为链接，调用方法">
+<meta property="og:description" content="众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。 该文档的内容以通过审核，现已可用。  注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！旧版 v1 API 链接  API 文档所有链接均使用 https:&#x2F;&#x2F;redlist">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-21T09:47:44.672Z">
+<meta property="og:updated_time" content="2020-03-22T15:18:42.511Z">
 <meta name="twitter:card" content="summary">
   
   
@@ -78,7 +79,7 @@
       
   
     <h1 class="article-title" itemprop="name">
-      Libra 红名单 WebAPI v2 文档（草案）
+      Libra 红名单 WebAPI v2 文档
     </h1>
   
 
@@ -87,8 +88,9 @@
     <div class="article-entry" itemprop="articleBody">
       
       <p>众所周知，因为一些内部开发人员对于使用 Python 有争议，最后协商选择使用 NodeJS 重新编写，同时和维护团队与阿尔法营的守护者老师深度讨论之后重新制定了第二个 WebAPI 版本。</p>
+<p>该文档的内容以通过审核，现已可用。</p>
 <blockquote>
-<p>注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！</p>
+<p>注：旧版本的 API 仍然会保留，但是不建议继续使用，请尽快将请求链接转移至 v2！<br><a href="https://www.sparrowhe.top/copyright/2020/03/06/redlist.html" target="_blank" rel="noopener">旧版 v1 API 链接</a></p>
 </blockquote>
 <h2 id="API-文档"><a href="#API-文档" class="headerlink" title="API 文档"></a>API 文档</h2><p>所有链接均使用 <code>https://redlist.zerlight.top:1100/v2</code> 为链接，调用方法为 <code>POST</code>。表单数据均为 JSON，FormData 或 URIEncodedForm。</p>
 <p>所有表单以 <code>method</code> 确定调用功能类型和返回值，总共有以下值可以选择：</p>
@@ -150,13 +152,8 @@
 <td>string/null</td>
 <td>如果 status 为 <code>true</code> 时这里是被登记入红名单的原因，否则为 <code>null</code></td>
 </tr>
-<tr>
-<td>### getList</td>
-<td></td>
-<td></td>
-</tr>
 </tbody></table>
-<table>
+<h3 id="getList"><a href="#getList" class="headerlink" title="getList"></a>getList</h3><table>
 <thead>
 <tr>
 <th>参数名称</th>
@@ -241,7 +238,7 @@
 <p>服务端：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"message": "success",</span><br><span class="line">	"status": true,</span><br><span class="line">	"reason": "此为示例用户，当你看到这个永久名单，说明你的请求有问题或者你本来就是要测试才调用这个的，请更正你的请求数据后重试"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="getList"><a href="#getList" class="headerlink" title="getList"></a>getList</h3><p>客户端：</p>
+<h3 id="getList-1"><a href="#getList-1" class="headerlink" title="getList"></a>getList</h3><p>客户端：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/v2</span> HTTP/1.1</span><br><span class="line"><span class="attribute">HOST</span>: redlist.zerlight.top:1100</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	"method": "getList",</span><br><span class="line">	"platform": "acamp"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>服务端（因列表数据太多所以只列举一个）：</p>
@@ -256,9 +253,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2020/03/21/librewebapiv2doc/" data-id="ck81fubfl0001g03bey7rfp33" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2020/03/21/librewebapiv2doc/" data-id="ck836zrvv0001g83b6owu6q9x" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
     </footer>
   </div>
   
@@ -293,7 +292,7 @@
       repo: 'blog',
       owner: 'Steve-xmh',
       admin: ['Steve-xmh'],
-      id: '1584784064000f6449e4b',      // Ensure uniqueness and length less than 50
+      id: '15847840640001b99b7ff',      // Ensure uniqueness and length less than 50
       distractionFreeMode: 'true'  // Facebook-like distraction free mode
     })
     gitalk.render('gitalk_thread')
@@ -310,7 +309,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
     </div>
   </div>
 
@@ -320,7 +319,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
+      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/blog/tags/Scratch/" style="font-size: 10px;">Scratch</a> <a href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">版权维护</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
     </div>
   </div>
 
@@ -342,7 +341,7 @@
       <ul>
         
           <li>
-            <a href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档（草案）</a>
+            <a href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档</a>
           </li>
         
           <li>
