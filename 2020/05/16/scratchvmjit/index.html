@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>关于如何优化 Scratch 虚拟机的运行速度思路 | 小萧的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开学一周了，也有一阵子没有写过博客了，正好最近在自制 ScratchScript ，脑袋里想到了些关于优化性能的思路，就写在这里留作记忆了。  注：下文仅为个人见解，如果有误请在评论区指出，谢谢！ 本文仅在 SteveXMH 的个人博客 里发布，请勿复制本文！  短板在哪？看过 Scratch 3.0 虚拟机源码 的都知道，官方 VM 为了扩展性和与 ScratchBlocks 的交互性整出了不少">
+<meta name="keywords" content="Scratch,JavaScript,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于如何优化 Scratch 虚拟机的运行速度思路">
+<meta property="og:url" content="https:&#x2F;&#x2F;steve-xmh.github.io&#x2F;blog&#x2F;2020&#x2F;05&#x2F;16&#x2F;scratchvmjit&#x2F;index.html">
+<meta property="og:site_name" content="小萧的个人博客">
+<meta property="og:description" content="开学一周了，也有一阵子没有写过博客了，正好最近在自制 ScratchScript ，脑袋里想到了些关于优化性能的思路，就写在这里留作记忆了。  注：下文仅为个人见解，如果有误请在评论区指出，谢谢！ 本文仅在 SteveXMH 的个人博客 里发布，请勿复制本文！  短板在哪？看过 Scratch 3.0 虚拟机源码 的都知道，官方 VM 为了扩展性和与 ScratchBlocks 的交互性整出了不少">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-16T06:42:06.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;SteveXmh">
+  
+  
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/blog/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="bgwrap">
+      <script>
+        'use strict';
+        document.querySelector('#bgwrap').setAttribute('class', 'bg' + Math.floor(Math.random() * 2));
+      </script>
+    </div>
+    <div id="wrap">
+      <header id="header">
+  <div id="banner">
+    <script>
+      'use strict';
+      document.querySelector('#banner').setAttribute('class', 'bg' + Math.floor(Math.random() * 2));
+    </script>
+  </div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">小萧的个人博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/blog/" id="subtitle">欢迎光临！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">首页</a>
+        
+          <a class="main-nav-link" href="/blog/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://steve-xmh.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-scratchvmjit" class="article article-type-post" itemscope
+  itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2020/05/16/scratchvmjit/" class="article-date">
+  <time datetime="2020-05-16T06:42:06.000Z" itemprop="datePublished">2020-05-16</time>
+</a>
+    
+  </div>
+  
+  <div class="article-desc">
+      <span title="共计字数：1.8k">
+        共计字数：1.8k
+      </span>
+      <span title="预计阅读用时：6 分钟">
+        预计阅读用时：6 分钟
+      </span>
+  </div>
+  
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      关于如何优化 Scratch 虚拟机的运行速度思路
+    </h1>
+  
+
+    </header>
+    
+    
+      <div class="article-entry" itemprop="articleBody">
+    
+      
+      <p>开学一周了，也有一阵子没有写过博客了，正好最近在自制 <a href="https://github.com/steve-xmh/scratch-script" target="_blank" rel="noopener">ScratchScript</a> ，脑袋里想到了些关于优化性能的思路，就写在这里留作记忆了。</p>
+<blockquote>
+<p>注：下文仅为个人见解，如果有误请在评论区指出，谢谢！</p>
+<p>本文仅在 <a href="https://steve-xmh.github.io/blog/">SteveXMH 的个人博客</a> 里发布，请勿复制本文！</p>
+</blockquote>
+<h2 id="短板在哪？"><a href="#短板在哪？" class="headerlink" title="短板在哪？"></a>短板在哪？</h2><p>看过 <a href="https://github.com/LLK/scratch-vm" target="_blank" rel="noopener">Scratch 3.0 虚拟机源码</a> 的都知道，官方 VM 为了扩展性和与 <a href="https://github.com/LLK/scratch-blocks" target="_blank" rel="noopener">ScratchBlocks</a> 的交互性整出了不少的接口，一环套一环，而且为了适应不严谨的 JavaScript 和难看的扩展文档在扩展调用方面做了大堆的语法糖，执行一个模块的逻辑都没有 <a href="https://github.com/LLK/scratch-flash/blob/develop/src/interpreter/Interpreter.as" target="_blank" rel="noopener">Scratch 2.0 的虚拟机</a> 来的简洁，尽管 3.0 相对于 2.0 性能快了不少，但是如果如此设计虚拟机，无疑会大大降低可以利用的性能。</p>
+<p>也许是我的错觉，因为 3.0 的虚拟机代码附上了大量的注释，尽可能地解释了代码的功能（虽然我还是看不懂（巨雾））</p>
+<h2 id="立刻掀了-3-0-的调度器？"><a href="#立刻掀了-3-0-的调度器？" class="headerlink" title="立刻掀了 3.0 的调度器？"></a>立刻掀了 3.0 的调度器？</h2><p>至少人力成本是不允许的，代码的耦合度太强，强行替换会出现连锁反应，所以我的想法是基于原有调度器添加类似预编译的功能，从我的思路想法上应该不会有太大的难度，难点在于如何进行预编译。</p>
+<h2 id="预编译？"><a href="#预编译？" class="headerlink" title="预编译？"></a>预编译？</h2><p>我的思路来源于这个<a href="https://forkphorus.github.io/" target="_blank" rel="noopener">预编译型虚拟机 forkphorus</a> 和它的原版 <a href="https://phosphorus.github.io/" target="_blank" rel="noopener">phosphorus</a>，二者都是通过将模块预先转译成 JavaScript 后再执行，所以我有想把类似的转移方式塞进 3.0 运行时里（不是把 forkphorus 照搬进去！）。</p>
+<p>举个栗子：</p>
+<p>这是我们的运动模块中的 前进 （　）步 的模块实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scratch3MotionBlocks</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    moveSteps (args, util) &#123;</span><br><span class="line">        <span class="keyword">const</span> steps = Cast.toNumber(args.STEPS);</span><br><span class="line">        <span class="keyword">const</span> radians = MathUtil.degToRad(<span class="number">90</span> - util.target.direction);</span><br><span class="line">        <span class="keyword">const</span> dx = steps * <span class="built_in">Math</span>.cos(radians);</span><br><span class="line">        <span class="keyword">const</span> dy = steps * <span class="built_in">Math</span>.sin(radians);</span><br><span class="line">        util.target.setXY(util.target.x + dx, util.target.y + dy);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，因为我们的运行时在注册模块的时候，会给每个模块的实现使用 <code>Function.bind</code> 固定 <code>this</code>，所以导致了不能直接对执行模块实现使用 <code>Function.toString</code> 获取原代码，不然只会返回 <code>[Native Code]</code>，所以为了能够在不修改原代码的前提下添加预编译的方案，也许只有添加一个新的属性用于描述用于嵌入的代码块了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scratch3MotionBlocks</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">get</span> jitcodes () &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 对照模块实现的 moveSteps</span></span><br><span class="line">            motion_movesteps: <span class="string">`</span></span><br><span class="line"><span class="string">                const steps = Cast.toNumber(args.STEPS);</span></span><br><span class="line"><span class="string">                const radians = MathUtil.degToRad(90 - util.target.direction);</span></span><br><span class="line"><span class="string">                const dx = steps * Math.cos(radians);</span></span><br><span class="line"><span class="string">                const dy = steps * Math.sin(radians);</span></span><br><span class="line"><span class="string">                util.target.setXY(util.target.x + dx, util.target.y + dy);</span></span><br><span class="line"><span class="string">            `</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然也许我们还可以在注册前使用 <code>Function.toString</code> 获取到函数实现代码，获得了实现代码之后，我们就可以尝试进行组合然后使用 <code>new Function(code)</code> 生成新包装的函数了。但是如此直接复制的话难免会变得繁杂，因为原本的实现参数并不能直接用，那么我们可不可以用一种特殊的参数以暴露所需的接口呢？</p>
+<p>答案是肯定的，每个模块实现里的第二个参数是一个抽象对象，可以让模块实现访问到很多的接口。我们也可以定义一个 <code>util</code> 参数来包装几个 JIT 代码会用到的东西，之后的实现代码都可以用得到。</p>
+<p>顺带一提，我们的 JIT 代码会自深到浅进行预编译，类似于脏检查，如果有代码出现了变动，就只更新那一段的 JIT 代码，然后和原来已经生成过的 JIT 代码重新组合，减少函数生成消耗。</p>
+<h2 id="模块参数？"><a href="#模块参数？" class="headerlink" title="模块参数？"></a>模块参数？</h2><p>这个的难度还是有一点的，为了最大化性能肯定要做成内嵌形式的模块才可以正确获取参数，但是那么多的数据转换难免有点受不了，所以我想到了一个字符串的替换方案，用<code>[=[InputName]=]</code>用来表达要嵌入的参数，我们便可以把上面的 JIT 代码如此改动：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scratch3MotionBlocks</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">get</span> jitcodes () &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 对照模块实现的 moveSteps</span></span><br><span class="line">            motion_movesteps: <span class="string">`</span></span><br><span class="line"><span class="string">                const steps = util.Cast.toNumber([=[STEPS]=]);</span></span><br><span class="line"><span class="string">                const radians = util.MathUtil.degToRad(90 - util.target.direction);</span></span><br><span class="line"><span class="string">                const dx = steps * Math.cos(radians);</span></span><br><span class="line"><span class="string">                const dy = steps * Math.sin(radians);</span></span><br><span class="line"><span class="string">                util.target.setXY(util.target.x + dx, util.target.y + dy);</span></span><br><span class="line"><span class="string">            `</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后在生成的时候，根据模块的原型进行字符串转换，把常量或者嵌入的模块嵌入进去即可，但是部分地方可能需要注意一下优先级和语法问题，例如运算符的代码转换，还有数学函数的代码转换，如果遇到了同代码的不同模块实现，为了能更好的进行嵌入可以把 JIT 代码做成一个函数，传递模块参数并返回对应的 JIT 代码，可以更好的优化 JIT 代码量。</p>
+<h2 id="舞台刷新？"><a href="#舞台刷新？" class="headerlink" title="舞台刷新？"></a>舞台刷新？</h2><p>正常情况下我们的舞台角色通常会需要移动，等待，或者用画笔绘制图像，所以我们需要在一些模块里嵌入一种用于暂时停止的功能，以防止无止境的等待卡顿或不让出的问题。</p>
+<p>我的想法是使用 ES2017 的 <code>AsyncFunction</code> 来做到这个效果（IE：我####），然后在 <code>util</code> 参数里加上一个 <code>yield</code> 异步函数，调用时把目前的状态和是否需要等待舞台刷新传递给调度器，然后调度器返回一个 Promise 并保存 <code>resolve</code> 函数到当前线程里，等待调度器处理完其他线程并更新舞台后再调用，即可继续运行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scratch3ControlBlocks</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">get</span> jitcodes () &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 对照模块实现的 wait</span></span><br><span class="line">            control_wait: <span class="string">`</span></span><br><span class="line"><span class="string">                if (util.stackTimerNeedsInit()) &#123;</span></span><br><span class="line"><span class="string">                    const duration = Math.max(0, 1000 * util.Cast.toNumber([=[DURATION]=]));</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                    util.startStackTimer(duration);</span></span><br><span class="line"><span class="string">                    util.runtime.requestRedraw();</span></span><br><span class="line"><span class="string">                    await util.yield(&#123;</span></span><br><span class="line"><span class="string">                        waitStageUpdate: true</span></span><br><span class="line"><span class="string">                    &#125;);</span></span><br><span class="line"><span class="string">                &#125; else if (!util.stackTimerFinished()) &#123;</span></span><br><span class="line"><span class="string">                    await util.yield(&#123;</span></span><br><span class="line"><span class="string">                        waitStageUpdate: true</span></span><br><span class="line"><span class="string">                    &#125;);</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">            `</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码块？"><a href="#代码块？" class="headerlink" title="代码块？"></a>代码块？</h2><p>代码块例如 <code>如果＜　＞那么｛　｝</code> 模块需要嵌入一段代码树，其实在 VM 里分支模块树本质也是一个参数，所以我们可以使用 <code>SUBSTACK</code>,<code>SUBSTACK2</code> 等参数进行嵌入，甚至我们可以自己定义一个 <code>NEXT</code> 参数用于连接下一个模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scratch3ControlBlocks</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">get</span> jitcodes () &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 对照模块实现的 wait</span></span><br><span class="line">            control_if: <span class="string">`</span></span><br><span class="line"><span class="string">                const condition = Cast.toBoolean([=[CONDITION]=]);</span></span><br><span class="line"><span class="string">                if (condition) &#123;</span></span><br><span class="line"><span class="string">                    [=[SUBSTACK]=];</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">                [=[NEXT]=];</span></span><br><span class="line"><span class="string">            `</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="那扩展作者也得一个个加-JIT-代码？"><a href="#那扩展作者也得一个个加-JIT-代码？" class="headerlink" title="那扩展作者也得一个个加 JIT 代码？"></a>那扩展作者也得一个个加 JIT 代码？</h2><p>我们是基于原有的调度器进行改造，如果遇到没有 JIT 代码的模块，我们就按照原版的执行方式去执行，直到下一个模块包含了 JIT 代码才会继续调用。</p>
+<h2 id="说的好听，做起来还是很累。。。"><a href="#说的好听，做起来还是很累。。。" class="headerlink" title="说的好听，做起来还是很累。。。"></a>说的好听，做起来还是很累。。。</h2><p>学生党依然是没有时间的，所以上面提供的思路，也许真正的大佬就可以做得出来，期待能有这样的新 VM 出现。</p>
+<p>有什么意见建议就发在评论区吧！周末我会回来看的哦！</p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://steve-xmh.github.io/blog/2020/05/16/scratchvmjit/" data-id="cka99mmra00058k3bbqca9f8x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/blog/2020/03/21/librewebapiv2doc/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Libra 红名单 WebAPI v2 文档</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<section id="comments">
+  <div id="gitalk_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">comments powered by
+        Gitalk.</a></noscript>
+  </div>
+  
+  <script>
+    const gitalk = new Gitalk({
+      clientID: 'ac816fe4bd924ec0c8f7',
+      clientSecret: 'de461fc387072aeffb7b5e9739e903b0721d1307',
+      repo: 'blog',
+      owner: 'Steve-xmh',
+      admin: ['Steve-xmh'],
+      id: '1589611326000ed94a0ea',      // Ensure uniqueness and length less than 50
+      distractionFreeMode: 'true'  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk_thread')
+  </script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 13.33px;">JavaScript</a> <a href="/blog/tags/Scratch/" style="font-size: 16.67px;">Scratch</a> <a href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">版权维护</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2020/05/16/scratchvmjit/">关于如何优化 Scratch 虚拟机的运行速度思路</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/01/31/xxdwysjtrmzdythtml/">小萧的网页三件套入门之第一套：HTML</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/">如何二次开发 Scratch 2.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+        
+        <div>
+            <a href="https://blog.hydrostic.com/" target="_blank" rel="noopener">Hydrostic</a>
+        </div>
+        
+        <div>
+            <a href="https://blog.alexcui.top/" target="_blank" rel="noopener">Alex Cui</a>
+        </div>
+        
+        <div>
+            <a href="https://www.abelchen.xyz/" target="_blank" rel="noopener">Xiaoji</a>
+        </div>
+        
+        <div>
+            <a href="https://www.hualeipw.top/" target="_blank" rel="noopener">Hualei</a>
+        </div>
+        
+        <div>
+            <a href="https://www.sparrowhe.top/" target="_blank" rel="noopener">Sparrow</a>
+        </div>
+        
+        <div>
+            <a href="https://www.wumouren.xyz/" target="_blank" rel="noopener">某人的天地</a>
+        </div>
+        
+        <div>
+            <a href="https://timfang.baklib.com/" target="_blank" rel="noopener">TimFang</a>
+        </div>
+        
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" style="display: flex;">
+    <div id="footer-info" class="inner" style="display: inline-block; flex: auto; word-wrap: none;">
+      &copy; 2020 Steve Xiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <div style="display: inline-block; flex: 1;"></div>
+    <div id="footer-info" class="inner" style="display: inline-block; flex: auto;">
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">首页</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
