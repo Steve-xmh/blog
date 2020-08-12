@@ -75,6 +75,77 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-如何保护你的-Roblox-游戏公平-安全" class="article article-type-post" itemscope
+  itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/" class="article-date">
+  <time datetime="2020-08-12T06:28:03.000Z" itemprop="datePublished">2020-08-12</time>
+</a>
+    
+  </div>
+  
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/">如何保护你的 Roblox 游戏公平/安全</a>
+    </h1>
+  
+
+    </header>
+    
+    
+      <div class="article-entry hide-part" itemprop="articleBody">
+    
+      
+      <blockquote>
+<p>注：文章仓促完成，如果有误请不吝指正。</p>
+</blockquote>
+<p>众所周知，游戏都有可能存在漏洞，而作弊者常常出现，他们破坏游戏规则，干扰玩家体验，甚至窃取游戏代码。至此在游戏有一定社区规模后，我们就不得不考虑游戏安全和公平问题了。借由亲身体验过游戏执行器（Executor）（即可以从外部向 Roblox Player 内执行完整的核心脚本（Core Script）的等级 Lua 代码的工具）的人。我向大家介绍 Roblox 的游戏作弊社区，以及如何尽可能的保护游戏和公平。</p>
+<h2 id="什么是执行器（Executor）？"><a href="#什么是执行器（Executor）？" class="headerlink" title="什么是执行器（Executor）？"></a>什么是执行器（Executor）？</h2><p>执行器（俗称作弊器）是一种通过访问 Roblox 进程，获取 Lua 句柄，并从外部向内执行任何完整 Lua 代码的工具，目前较为出名的执行器有 Synapse-X，Protosmasher 等，被注入的脚本通常拥有非常高的权限（等级同等 CoreScript）以及非常丰富的脚本模块，以至于脚本很难被侦测到。<br>但因为其执行器的特殊性，大部分黑客用其制作游戏作弊脚本。例如 ESP（玩家透视），TP（传送），Farm（自动刷取游戏币）等。</p>
+<h3 id="执行器的等级"><a href="#执行器的等级" class="headerlink" title="执行器的等级"></a>执行器的等级</h3><p>在 Roblox 的黑客社区里，这类执行器的执行能力通常被划分为 7 个等级，通常代表了不同的脚本环境，1 - 2 级为 LocalScript 环境，3 - 4 级为 Roblox 核心脚本环境，5 级为 Roblox Studio 命令栏环境，而 6 级为的 Roblox Studio 的插件环境，最后一个 7 级等级为 Roblox 服务器脚本等级。（因为 2016 年 Roblox 推出的过滤启用功能，现已经没有这个等级的执行器了）（笔者入坑时，正值当时的 7 级执行器 RC7 泛滥的时候）</p>
+<h2 id="什么是混淆器（Obfuscator）？"><a href="#什么是混淆器（Obfuscator）？" class="headerlink" title="什么是混淆器（Obfuscator）？"></a>什么是混淆器（Obfuscator）？</h2><p>混淆器和压缩器（Minifier）虽然看似相同，但是目的不一致。压缩器的目的是用于减少原代码体积，而混淆器是用于使代码转换成让普通程序员无法直接解读的形式：</p>
+<p>一段简单的代码：<br><img src="upload://o1G0H3pWZSCgm3UJg7LsGSTl4KB.png" alt="image|406x250"> </p>
+<p>被混淆后变成了这样：<br><img src="upload://jZX9uRpUzr5GQ00DSI7JhnCxdIN.png" alt="image|690x265"> </p>
+<p>这类代码通常解读难度巨大，一般情况下很难判断代码内在执行什么，也正因为如此，部分黑客通过将脚本混淆，放在一些工具箱（ToolBox）的模型内，进而影响到玩家的正常游戏（例如被莫名其妙的跳转，要求购买通行证，甚至是要求输入账户密码）。更有甚者，在开发者的插件内植入混淆代码，从而通过 HttpService 直接从开发者处获取完整的原代码（历史上 木材大亨2（Lumber Tycoon 2） 幻影军队（Phantom Forces） 均因此被窃取原代码并在黑客论坛内流通）<br>目前已知的混淆器有闭源的 Synapse-Xen 和开源的 IronBrew，Github 也有不同种类的可以自行查询。</p>
+<h2 id="如何保证游戏公平？"><a href="#如何保证游戏公平？" class="headerlink" title="如何保证游戏公平？"></a>如何保证游戏公平？</h2><p>虽然我们不一定能做到绝对无法破解（例如 ESP，Synapse-X 可以在 CoreGui 内输出透视结果，而局部脚本和服务器脚本均无法检测核心页面的变化），但如果能把作弊降低至辅助等级，我们的公平就能得到极大的保证了。</p>
+<h3 id="开启过滤启用（或关闭实验模式）"><a href="#开启过滤启用（或关闭实验模式）" class="headerlink" title="开启过滤启用（或关闭实验模式）"></a>开启过滤启用（或关闭实验模式）</h3><p>2016 年，Roblox 推出了过滤启用（Workspace.FilteringEnabled），使得客户端的绝大部分数据不会复制到服务器内，大大减少了执行器的涉及范围。如果你的游戏没有开启该设置，启用将可以抵制绝大部分的低等级执行器。</p>
+<h3 id="重要的事件放在服务器处理"><a href="#重要的事件放在服务器处理" class="headerlink" title="重要的事件放在服务器处理"></a>重要的事件放在服务器处理</h3><p>拿 FPS 游戏举例（Phantom Forces），我们通常会使用枪械射击，这通常会需要触发事件，但某些游戏开发者会先检测是否击中玩家，然后向服务器发送该玩家的信息，这就给作弊可乘之机了，只要遍历玩家列表，逐个循环触发，就能做到全员击杀（没准队友也被杀了呢）如果手段高明一些，我们可以发送枪械的发射方向（Ray）然后让服务器计算弹道是否击中，虽然可能有些简陋，但是我们的确增加了作弊脚本的编写难度。</p>
+<p>拿 Obby 游戏举例（举例 The Tower of Hell），玩家想瞬移到终点直接胜利，而如果玩家的移动速度是恒定不变的，我们便可以检测玩家的水平速度（垂直可能存在玩家掉落的情况），如果会超出，可能就是在作弊了。</p>
+<p>拿 Tycoon 游戏举例（Lumber Tycoon 2），作弊者通过触发读档事件复制游戏物品，作者将保存和读取分开，而不是合并成一个处理，游戏中不得保存当前存档槽到别的存档槽上，但是借助作弊脚本即可复制存档，如果可以进行合并，也许可以解决复制方面的问题。</p>
+<p>其他游戏可能不会出现上述情况，但是要领一定是尽可能减少客户端与服务器的交互，或者合并与客户端的访问都可以。</p>
+<h3 id="不用的游戏实例放在-ServerStorage-内"><a href="#不用的游戏实例放在-ServerStorage-内" class="headerlink" title="不用的游戏实例放在 ServerStorage 内"></a>不用的游戏实例放在 ServerStorage 内</h3><p>不光是事件，一些游戏模型如果可以就将其存储在 ServerStorage 内，绝大多数的执行器权限不足以访问 ServerStorage，所以这也可以确保游戏模型不被一下子全部窃取。</p>
+<h3 id="使用-ToolBox-的模型需要再三检查"><a href="#使用-ToolBox-的模型需要再三检查" class="headerlink" title="使用 ToolBox 的模型需要再三检查"></a>使用 ToolBox 的模型需要再三检查</h3><p>正如上文说到，ToolBox 的部分模型被插入恶意代码，虽然一下子可能会让你束手无策，但是如果我们只需要一个纯模型（不需要脚本添加行为的）的话，完全可以把下下来的模型包含的脚本删除。这样就能避免恶意脚本影响玩家游玩了。</p>
+<h3 id="尽量不要开启或限制插件访问-HttpService"><a href="#尽量不要开启或限制插件访问-HttpService" class="headerlink" title="尽量不要开启或限制插件访问 HttpService"></a>尽量不要开启或限制插件访问 HttpService</h3><p>前面举了两个游戏被窃取原代码的例子，都是因为安装了留有后门的插件造成的，因此我们一定要选择可以信任的插件（最好是从开发者论坛内寻找），如果担心插件不安全，可以访问 Roblox 的安装目录下的 <code>你的用户ID</code> 文件夹下的 <code>InstalledPlugins</code> 找到插件对应的模型文件（rbxm）进行检查。</p>
+<h3 id="减少局部脚本的数量或者也进行混淆"><a href="#减少局部脚本的数量或者也进行混淆" class="headerlink" title="减少局部脚本的数量或者也进行混淆"></a>减少局部脚本的数量或者也进行混淆</h3><p>我们无法确保客户端脚本（LocalScript）的完整安全，毕竟数据已经在客户端上，只要有时间都可以破除或者反编译。但是如果混淆器能正确使用，也可以保护我们的脚本不被直接解读。可以尝试制作插件，发布前将脚本进行混淆，这样能大大增加逆向工程的难度，这样即使被反编译，也需要大量的精力去逆向工程。</p>
+<h3 id="在表内使用元表进行访问检测"><a href="#在表内使用元表进行访问检测" class="headerlink" title="在表内使用元表进行访问检测"></a>在表内使用元表进行访问检测</h3><p>如果你的游戏价值已经大到作弊脚本已经要访问你的脚本来篡改数据的话，那么在需要的变量（多为 table）内使用元表进行检测访问便是必不可少的了。通过 <code>__index</code> 和 <code>__newindex</code> 抓取数据被更改的情况，使用 <code>getfenv</code> 获取脚本环境是否是脚本自身，如果不一致那么就是作弊脚本正在访问了。<br>简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">local scriptEnv = getfenv()</span><br><span class="line">local meta = &#123;</span><br><span class="line">  __index = function(t, k)</span><br><span class="line">    for i = 0, 10 do</span><br><span class="line">      if getfenv(i) ~= scriptEnv then</span><br><span class="line">        warn(&quot;检测到作弊脚本读取数据！&quot;) -- 做你想做的，踢出玩家也可以</span><br><span class="line">        return</span><br><span class="line">      end</span><br><span class="line">    end</span><br><span class="line">    return t[k]</span><br><span class="line">  end,</span><br><span class="line">  __newindex = function(t, k, v)</span><br><span class="line">    for i = 0, 10 do</span><br><span class="line">      if getfenv(i) ~= scriptEnv then</span><br><span class="line">        warn(&quot;检测到作弊脚本写入数据！&quot;) -- 做你想做的，踢出玩家也可以</span><br><span class="line">        return</span><br><span class="line">      end</span><br><span class="line">    end</span><br><span class="line">    t[k] = v</span><br><span class="line">  end</span><br><span class="line">&#125;</span><br><span class="line">local data = setmetatable(&#123; a = 0 &#125;, meta)</span><br><span class="line">data.a = data.a + 1</span><br></pre></td></tr></table></figure>
+<h3 id="在你能确认的情况下永久封禁用户"><a href="#在你能确认的情况下永久封禁用户" class="headerlink" title="在你能确认的情况下永久封禁用户"></a>在你能确认的情况下永久封禁用户</h3><p>如果能确信用户的操作属于作弊，那么可以在云端数据上记录该玩家并阻止玩家进入游戏（进入则踢出），这也是一个简单粗暴的方式，而且在国服 Roblox 内，小号的创建难度远高于国际服，所以能加大脚本作者编写作弊脚本的难度。</p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>我们不能完全阻止玩家做出不公平的事情，道高一尺魔高一丈，即便是像微软苹果这样的公司也会有泄露商业机密的问题。我们能做的就是尽可能增加难度，让<strong>作弊成本大于游戏价值</strong>。</p>
+<p>最后祝大家做出自己梦想的游戏，<strong>Powering Imagination</strong>！</p>
+
+      
+    </div>
+    
+      <a href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
+    
+    <footer class="article-footer">
+      <a data-url="https://steve-xmh.github.io/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/" data-id="ckdqzt14p0004eo3b5uqhe9v4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Lua/" rel="tag">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Roblox/" rel="tag">Roblox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-scratchvmjit" class="article article-type-post" itemscope
   itemprop="blogPost">
   <div class="article-meta">
@@ -142,7 +213,7 @@
       <a href="/blog/2020/05/16/scratchvmjit/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2020/05/16/scratchvmjit/" data-id="cka9cbkrb0002vs3b4ziqbyek" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2020/05/16/scratchvmjit/" data-id="ckdqzt1450000eo3bdo9z8dy6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -350,7 +421,7 @@
       <a href="/blog/2020/03/21/librewebapiv2doc/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2020/03/21/librewebapiv2doc/" data-id="cka9cbkr70001vs3b5t66ahqj" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2020/03/21/librewebapiv2doc/" data-id="ckdqzt151000aeo3b902450xp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -486,7 +557,7 @@
       <a href="/blog/2020/01/31/xxdwysjtrmzdythtml/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2020/01/31/xxdwysjtrmzdythtml/" data-id="cka9cbks6000gvs3bci4xcs8t" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2020/01/31/xxdwysjtrmzdythtml/" data-id="ckdqzt14k0003eo3bd82t6oqb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li></ul>
@@ -566,7 +637,7 @@
       <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="cka9cbks9000ivs3b5bby925r" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/" data-id="ckdqzt16h0016eo3b74f6f6hw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -704,7 +775,7 @@
       <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" data-id="cka9cbks3000fvs3b9vslf9wn" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/" data-id="ckdqzt14d0001eo3b5gqaapan" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
@@ -767,7 +838,7 @@
       <a href="/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/#more" class="hide-part-shadow">↓ 继续阅读 ↓</a>
     
     <footer class="article-footer">
-      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" data-id="cka9cbksb000jvs3bdzj33en9" class="article-share-link">Share</a>
+      <a data-url="https://steve-xmh.github.io/blog/2019/11/09/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2%EF%BC%81/" data-id="ckdqzt14x0008eo3bc93i6ugl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
@@ -793,7 +864,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lua/" rel="tag">Lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Roblox/" rel="tag">Roblox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
     </div>
   </div>
 
@@ -803,7 +874,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 13.33px;">JavaScript</a> <a href="/blog/tags/Scratch/" style="font-size: 16.67px;">Scratch</a> <a href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">版权维护</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
+      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 13.33px;">JavaScript</a> <a href="/blog/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/blog/tags/Roblox/" style="font-size: 10px;">Roblox</a> <a href="/blog/tags/Scratch/" style="font-size: 16.67px;">Scratch</a> <a href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">版权维护</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
     </div>
   </div>
 
@@ -812,7 +883,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
     </div>
   </div>
 
@@ -823,6 +894,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/">如何保护你的 Roblox 游戏公平/安全</a>
+          </li>
         
           <li>
             <a href="/blog/2020/05/16/scratchvmjit/">关于如何优化 Scratch 虚拟机的运行速度思路</a>
@@ -838,10 +913,6 @@
         
           <li>
             <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-3-0-%E7%AC%AC%E4%B8%80%E7%AF%87/">如何二次开发 Scratch 3.0 第一篇</a>
-          </li>
-        
-          <li>
-            <a href="/blog/2019/11/09/%E5%A6%82%E4%BD%95%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91-Scratch-2-0/">如何二次开发 Scratch 2.0</a>
           </li>
         
       </ul>
