@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Rust UI 中的 ECS 架构（翻译） | 小萧的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文：Entity-Component-System architecture for UI in Rust仅在 小萧的个人博客 发布，严禁搬运抄袭！个人翻译，水平不佳，如有错误还请评论区提醒更正，非常感谢！  最近，我一直在维护 xi-win 这个有趣的工程。这是一个用 Rust 编写，用于 xi-editor 的实验窗口前端。我还在简单的优化它的性能，所以做了一些不寻常的决定。除去其他的库，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust UI 中的 ECS 架构（翻译）">
+<meta property="og:url" content="https://steve-xmh.github.io/blog/2021/02/03/Rust-UI-%E4%B8%AD%E7%9A%84-ECS/index.html">
+<meta property="og:site_name" content="小萧的个人博客">
+<meta property="og:description" content="原文：Entity-Component-System architecture for UI in Rust仅在 小萧的个人博客 发布，严禁搬运抄袭！个人翻译，水平不佳，如有错误还请评论区提醒更正，非常感谢！  最近，我一直在维护 xi-win 这个有趣的工程。这是一个用 Rust 编写，用于 xi-editor 的实验窗口前端。我还在简单的优化它的性能，所以做了一些不寻常的决定。除去其他的库，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-03T09:59:00.000Z">
+<meta property="article:modified_time" content="2021-02-03T09:59:26.446Z">
+<meta property="article:author" content="Steve Xiao">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="GUI">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;SteveXmh">
+  
+  
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFwSURBVEhL7ZY9SsVAEIAn/w9zHguP4EEsPIJYaLyAWAiCoIVYP8RWXkwhKoIHsHmIRwhI/uOwM86b1SI2KZ7kY4tvh2UXZnYncdI0zbIMDEEQkCBN07ABhGHIBlCWJZuN53lsAL7vk+AmzqGB5nEckyB6Ix3P85wNoO97NoAoitiUF0Xhko3H6AdAkiSYPoJDBsy74ChcBS818BYGDhnWP0WjH2Bd0+xknwTRb6JtWzYbue9I13VsANt7xyT/4pqOX4P358XHyz1NdE71Ndc1qOuaza6TjkurOL9dTDUYxMfWgd2GJps7q3eAbYcN4OH0gM3O+9buKq5b99PZEQkGpxoM4iwf7/Ap0ES/A82P1i/oOukayPrpHfwFF/M++4a+qAT2H6GsahmfRSkD8y5UCg6Zqkw1GMTFFHPmqgq/qwKXwuB7royNWSTD/CgxvNTAexvWP0XO/Ori5vqSJrol0CX7DWaDzXbMKpva5/Vt+QVyr71VHE9svAAAAABJRU5ErkJggg==">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="bgwrap">
+      <script>
+        'use strict';
+        document.querySelector('#bgwrap').setAttribute('class', 'bg' + Math.floor(Math.random() * 2));
+      </script>
+    </div>
+    <div id="wrap">
+      <header id="header">
+  <div id="banner">
+    <script>
+      'use strict';
+      document.querySelector('#banner').setAttribute('class', 'bg' + Math.floor(Math.random() * 2));
+    </script>
+  </div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">小萧的个人博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/blog/" id="subtitle">欢迎光临！</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">首页</a>
+        
+          <a class="main-nav-link" href="/blog/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://steve-xmh.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Rust-UI-中的-ECS" class="article article-type-post" itemscope
+  itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2021/02/03/Rust-UI-%E4%B8%AD%E7%9A%84-ECS/" class="article-date">
+  <time datetime="2021-02-03T09:59:00.000Z" itemprop="datePublished">2021-02-03</time>
+</a>
+    
+  </div>
+  
+  <div class="article-desc">
+      <span title="共计字数：3.4k">
+        共计字数：3.4k
+      </span>
+      <span title="预计阅读用时：11 分钟">
+        预计阅读用时：11 分钟
+      </span>
+  </div>
+  
+  <div class="article-inner">
+    
+    
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      Rust UI 中的 ECS 架构（翻译）
+    </h1>
+  
+
+    </header>
+    
+    
+      <div class="article-entry" itemprop="articleBody">
+    
+      
+      <blockquote>
+<p>原文：<a href="https://raphlinus.github.io/personal/2018/05/08/ecs-ui.html" target="_blank" rel="noopener">Entity-Component-System architecture for UI in Rust</a><br>仅在 <a href="https://steve-xmh.github.io/blog/">小萧的个人博客</a> 发布，严禁搬运抄袭！<br>个人翻译，水平不佳，如有错误还请评论区提醒更正，非常感谢！</p>
+</blockquote>
+<p>最近，我一直在维护 <a href="https://github.com/google/xi-win" target="_blank" rel="noopener">xi-win</a> 这个有趣的工程。这是一个用 Rust 编写，用于 xi-editor 的实验窗口前端。我还在简单的优化它的性能，所以做了一些不寻常的决定。除去其他的库，UI 库由我自己编写，而不是用现在已有的。</p>
+<p>本文的代码：<a href="https://github.com/google/xi-win/tree/master/xi-win-ui" target="_blank" rel="noopener">xi-win/xi-win-ui</a>。如果你用的是 Windows 的话，可以试试看里面的 <code>calc</code> 范例！</p>
+<p>我已经听说过有关<a href="https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system" target="_blank" rel="noopener">实体-组件-系统（Entity-Component-System）（ECS）</a>架构的优势了，所以很想试一下。我也有很多编写经验，所以想在这里介绍一下。对于那些想要从零开始制作自己的 GUI 框架的人，我都十分推荐使用 ECS 架构。而且我认为，这个架构非常方便，可以有效避免借用检查冲突和 <code>RefCell</code> 的滥用。作为依据，我们可以看看由此编写的代码与其他 GUI 框架实现相比有多么简洁明了。</p>
+<p><strong>2018-05-10 更新：</strong>这篇文章在 <a href="https://www.reddit.com/r/rust/comments/8i1z6d/entitycomponentsystem_architecture_for_ui_in_rust/" target="_blank" rel="noopener">Reddit</a> 上得到了很多不错的回复。而且还在 <a href="https://internals.rust-lang.org/t/thoughts-on-rust-guis/6894" target="_blank" rel="noopener">Rust 开发论坛帖子</a>里也被提到了。官方论坛有很多非常好的资源，包括这个不错的文章 <a href="https://gist.github.com/csherratt/5ea19414e0f6cc9a4ed8f55d97021c52" target="_blank" rel="noopener">Rust UI Difficulties</a>，更详细的解释了我的想法。</p>
+<p>Reddit 帖子的总结是，我做的其实不是纯正的 ECS。我觉得把它描述成受到 ECS 启发的混合体更加准确，而且我也会不断补充这个解释。</p>
+<p>非常感谢评论区的大佬！</p>
+<p>（更新结束）</p>
+<h1 id="为什么（在-Rust-的）GUI-开发很难？"><a href="#为什么（在-Rust-的）GUI-开发很难？" class="headerlink" title="为什么（在 Rust 的）GUI 开发很难？"></a>为什么（在 Rust 的）GUI 开发很难？</h1><p>用任何编程语言编写一套 GUI 是很有难度的，在 Rust 更是如此，为什么呢？</p>
+<p>一个 GUI 拥有非常多的<em>状态</em>（State），非常多的<em>交互</em>（Interations），而且还是<em>动态的</em>（Dynamic）。传统的 GUI 框架都是设计成将接口拆分成各种各样的小部件对象，并相互调用函数方法来交互。每个部件都各自存储着全局状态的一部分，但是其他部件也可以访问到其余的所有状态。而且，由于各个部件的子级依赖关系，所有的部件也可以访问其他全部组件。</p>
+<p>这样的架构在 Rust 无法工作。首先，在 Rust 里访问可变的状态非常受限：同一时间内只允许一个结构访问一个可变引用。</p>
+<p>其中一个方法是使用<a href="https://doc.rust-lang.org/book/second-edition/ch15-05-interior-mutability.html" target="_blank" rel="noopener"><em>内部可变性</em></a>。通常用 <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> 来封装一个对象，使其能够被共享。如果在代码里需要借用可变状态，就从这里借用一个可变引用，修改其中的数据，然后借用就被自动释放。这个方式让可变引用检查转移到了运行时通过恐慌（Panic）来处理。（使用线程安全的方法的话，<code>Arc&lt;Mutex&lt;T&gt;&gt;</code> 会出现死锁而不是恐慌）</p>
+<p>虽然用这种技巧写 GUI 是<em>完全可以</em>的，但这并不好写。第一，代码会充斥着 <code>.borrow_mut()</code> 的借用调用，为了缩短生命周期的花括号约束以及时释放借用等。</p>
+<p>另一个 GUI 编程的难题是，为了提高性能，理想情况下它应该是可以<em>增量更新</em>的。例如响应输入，大多数 GUI 状态和外观可能保持不变，或者只有少量改变。优化性能的关键是尽可能减少计算工作量，也就是说只更新变化了的那个状态，然后只重绘屏幕上改变了的部分。在过去，因为性能约束，必须采用增量更新的方式，因为重绘整个窗口会非常缓慢。现在，完全重绘已经十分常见，尤其是<a href="https://gist.github.com/bkaradzic/853fd21a15542e0ec96f7268150f1b62" target="_blank" rel="noopener">立即模式 GUI 框架</a>。我需要说明一下我目前的代码并不会增量更新，但我正在计划去制作，而且我也希望架构可以支持这样。</p>
+<h1 id="实体-组件-系统架构"><a href="#实体-组件-系统架构" class="headerlink" title="实体-组件-系统架构"></a>实体-组件-系统架构</h1><p>在 实体-组件-系统（Entity-Component-System） 架构中，系统拥有所有组件（追加更新 2018-05-10：这不是很准确，在真实的 ECS 中组件都被存储在一个数据库内，我的 ECS UI 状态是作为数据库和系统的组合存在的）。用它们的术语来讲，一个实体是一个小型的轻量级对象，用于引用组件，在 Rust 中，它只是一个系统用来存储组件的 <code>Vec&lt;&gt;</code> 中的 <code>usize</code> 索引。</p>
+<p>在 ECS 中（或者按我的想法来说），组件负责它的特定行为，管理它的特定状态（例如标签组件的文字），但是系统会管理全部组件都通用的状态（例如几何布局）。系统也同时管理组件间的依赖关系（这样，部件就会构成关系树了）并管理它们之间的交互。</p>
+<p>在 xi-win-ui 中，大多数交互都使用 <a href="https://github.com/google/xi-win/blob/8c5ef020c846a0a8e152cd8ab5d2b79bdb3e6cb1/xi-win-ui/src/widget/mod.rs#L34" target="_blank" rel="noopener"><code>Widget</code></a> trait。实际上，里面的组件都是 <code>Box&lt;Widget&gt;</code> 的实现。</p>
+<h1 id="使用整数来索引各个节点"><a href="#使用整数来索引各个节点" class="headerlink" title="使用整数来索引各个节点"></a>使用整数来索引各个节点</h1><p>UI 的核心是部件树，长起来更像一个图表，父部件/子部件可以相互联系并双向遍历。有很多种方法来实现这种部件树。我个人喜欢将节点存储在一个 <code>Vec</code> 向量里面，然后用 <code>usize</code> 作为标识符，前面也有说到，我也向读者介绍一下 <a href="https://rust-leipzig.github.io/architecture/2016/12/20/idiomatic-trees-in-rust/" target="_blank" rel="noopener">Rust 里常用的树形结构</a>。</p>
+<p>这里没有太多需要补充的，只是另一个可以完美工作的形式而已。</p>
+<h1 id="状态分离"><a href="#状态分离" class="headerlink" title="状态分离"></a>状态分离</h1><p>另一个让 GUI 开发变得困难的原因是可变性的形式非常多样。例如，当进行布局时，你希望对几何进行可变引用，但又要不可变引用图像（译注：此处并不是很明白，请评论区的大佬稍微补充）。在不同的时间里添加组件到树中时，树需要变为可变的，但又不需要引用到几何。</p>
+<blockquote>
+<p>施工（人工翻译）进度到此，后文为机器翻译</p>
+</blockquote>
+<p>一种方法是将所有这些操作推迟到运行时-使用内部可变性，这样您传递的所有引用都是非可变的，然后仅在需要的时候进行可变的借用。</p>
+<p>我认为，更惯用的方法是准确地确定需要什么可变性，并将其编码为各种方法的类型，以便在编译时强制执行。这样做的好处是，不可能多次借贷出现恐慌，借贷模式基本上被证明是正确的。</p>
+<p>实现此模式的关键是状态拆分。在入口点，您可以对整个状态进行可变引用。采取该状态并将其拆分为对各个字段的引用。根据您的操作，某些参考是可变的，而其他参考则不是。您可以通过进行递归调用来遍历树，只需遍历引用即可。</p>
+<p>示例包括<a href="https://github.com/google/xi-win/blob/8c5ef020c846a0a8e152cd8ab5d2b79bdb3e6cb1/xi-win-ui/src/lib.rs#L304" target="_blank" rel="noopener">layout</a>，它具有对分量矢量和几何的可变引用，但对图形具有不可更改的引用。该<a href="https://github.com/google/xi-win/blob/8c5ef020c846a0a8e152cd8ab5d2b79bdb3e6cb1/xi-win-ui/src/lib.rs#L295" target="_blank" rel="noopener">涂料</a>的方法是类似的，但具有不可变的几何形状和一个可变的渲染目标的实际绘制控件的外观。调用输入事件的处理程序（鼠标键盘）时，会传入一个上下文，该上下文具有足够的可变状态，以使小部件可以将其标记为需要重绘，还可以将其他事件发送给侦听器。以下有关监听器的更多信息。</p>
+<h1 id="数据流，而不是控制流"><a href="#数据流，而不是控制流" class="headerlink" title="数据流，而不是控制流"></a>数据流，而不是控制流</h1><p>我想采用Flutter布局模型，因为它既高效又灵活。Flutter布局是树的一遍遍遍，其中约束向下流动，尺寸向上流动。我很喜欢亚当·巴特（Adam Barth）的演讲，即<a href="https://github.com/google/xi-win/blob/8c5ef020c846a0a8e152cd8ab5d2b79bdb3e6cb1/xi-win-ui/src/lib.rs#L295" target="_blank" rel="noopener">Flutter的“渲染管道”（Ruttering Pipeline）</a>作为清晰的描述，但是了解<a href="https://proandroiddev.com/understanding-flutter-layout-box-constraints-292cc0d5e807" target="_blank" rel="noopener">Flutter的布局（框）约束</a>可以使您理解所有基础知识。（我应该指出以避免混淆，Flutter的<a href="https://docs.flutter.io/flutter/rendering/RenderObject-class.html" target="_blank" rel="noopener">RenderObject</a>与<code>Widget</code>xi-win-ui中最接近; RenderObject层次结构是一个相当传统的窗口小部件系统，而Flutter的<a href="https://docs.flutter.io/flutter/widgets/Widget-class.html" target="_blank" rel="noopener">Widget</a>类可以看作是管理渲染的React样式层对象-Ian Hickson的<a href="https://www.youtube.com/watch?v=dkyY9WCGMi0" target="_blank" rel="noopener">讲话</a>是一个很好的解释。）</p>
+<p>在Flutter中，容器RenderObject的布局方法递归调用其子级。但是，在Rust中，这将是一个问题。借位检查员会抱怨。要调用父窗口小部件的布局方法，我们需要一个可变借项，它是从保存<code>Box&lt;Widget&gt;</code>对象的容器中的可变借项派生而来的。因此，要调用该子项，我们需要从该容器中再次借用以获取对该子项小部件的可调用引用。哎呀。</p>
+<p>xi-win-ui中使用的解决方案是从借来的上下文中“走私”足够的状态以取得进展。就像延续一样，其样式类似于在Rust中编写迭代器。对于布局而言，当某个微件要申请一个孩子的布局，它返回一个<code>RequestChild</code>与子节点的ID结果。然后，系统计算该布局（根据需要遍历为子级），然后<code>layout</code>再次使用结果调用该方法。</p>
+<p>侦听器使用类似的方法。在传统的面向对象的UI中，按钮小部件的鼠标处理程序可能会调用附加按钮的侦听器。反过来，侦听器可能会做很多不同的事情，包括向树中添加更多小部件（例如，如果按钮的操作是打开一个新选项卡）。但是，当按钮具有可变借位时，将不允许任何这些操作。</p>
+<p>解决方案类似于布局。小部件不是立即调用侦听器，而是将其输出事件添加到队列中（传递给处理程序的上下文包括对该队列的可变引用）。然后，当处理程序返回时，此队列中的事件将分派给侦听器。提供给侦听器的上下文允许对几乎所有状态的可变访问，因此它可以“戳”小部件，更改小部件图等。</p>
+<p>事件队列还说明了Rust<code>Any</code>特质的良好使用。不同的窗口小部件将发送不同的具体类型，因为在此类事件中有许多有用的类型，但是连接到窗口小部件的特定侦听器将知道预期的类型。</p>
+<h1 id="应用逻辑状态"><a href="#应用逻辑状态" class="headerlink" title="应用逻辑状态"></a>应用逻辑状态</h1><p>在撰写本文时，在master分支中，<a href="https://github.com/google/xi-win/blob/8c5ef020c846a0a8e152cd8ab5d2b79bdb3e6cb1/xi-win-ui/examples/calc.rs" target="_blank" rel="noopener">计算器</a>使用<code>Rc&lt;RefCell&lt;CalcState&gt;&gt;</code>来存储计算器状态，并且此参考在所有侦听器之间共享，用于单个计算器按钮。这表明可以将内部可变性模式与ECS架构混合使用。</p>
+<p><a href="https://github.com/google/xi-win/pull/32" target="_blank" rel="noopener">另一种实现</a>是使用自定义窗口小部件来存储应用程序状态。各个按钮侦听器发送事件，这些事件冒泡到此小部件。该管道不需要明确的ID；它是作为捕获事件的最接近的祖先而隐含的。该窗口小部件无法直接更改其他窗口小部件的状态（例如，更新读数），因此它将事件发送给侦听器。</p>
+<p>我仍在寻找最简洁，最惯用的方法来连接此体系结构中的UI。本小节的重点是说明存在多种合理的方法。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>Rust中GUI的另一种方法是<a href="https://github.com/PistonDevelopers/conrod" target="_blank" rel="noopener">conrod</a>。它使用了某些相同的技术（包括Rust-idiomatic图），但做出的设计决策与xi-win中我想要的有所不同。Rust中GUI的潜在用户和实现者一定应该注意这一点。</p>
+<p>与xi-win-ui相比，<a href="https://github.com/antoyo/relm" target="_blank" rel="noopener">relm</a>项目处理的堆栈级别更高，<a href="https://github.com/antoyo/relm" target="_blank" rel="noopener">后者</a>是传统微件系统之上的功能响应层。功能反应式风格以UI的简洁表达而闻名。在xi-win-ui上集成这样的层可能很有趣，但是对于xi-win，我计划直接构建窗口小部件树。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>过度使用<code>RefCell</code>是单一Rust代码的标志。使用正确的体系结构，可以完全避免这种情况。通用技术适用于许多有状态组件之间存在动态交互的情况。这些技术是：使用整数作为图形中节点的引用，在跳入时将状态分为可变和不可变的部分，在借用得过多时显式导出“继续”状态，而不是直接传递控制流。</p>
+<p>事实证明，ECS体系结构本身在游戏界非常有价值，尤其是在C ++中。它非常适合Rust，并且同样适用于UI框架中的小部件和游戏中的玩家。</p>
+<p>尽管仍处于实验阶段，但xi-win-ui的方法似乎适合于xi-win相对简单的UI需求。该代码非常简单，基本上没有“魔术”或宏来隐藏潜在的复杂性，只是惯用的Rust概念的普通用法。强烈建议未来的Rust GUI工具包的设计者学习此代码。</p>
+<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>感谢Connie Hilarides对ECS架构进行了有益的讨论，并感谢Rob Tsuk对Rust中GUI的讨论和原型。</p>
+
+      
+    </div>
+    
+    <footer class="article-footer">
+      <a data-url="https://steve-xmh.github.io/blog/2021/02/03/Rust-UI-%E4%B8%AD%E7%9A%84-ECS/" data-id="ckkpadvcb0005r03bbesugmh3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/GUI/" rel="tag">GUI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/Rust/" rel="tag">Rust</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何保护你的 Roblox 游戏公平/安全</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<section id="comments">
+  <div id="gitalk_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">comments powered by
+        Gitalk.</a></noscript>
+  </div>
+  
+  <script>
+    const gitalk = new Gitalk({
+      clientID: 'ac816fe4bd924ec0c8f7',
+      clientSecret: 'de461fc387072aeffb7b5e9739e903b0721d1307',
+      repo: 'blog',
+      owner: 'Steve-xmh',
+      admin: ['Steve-xmh'],
+      id: '1612346340000e850ba73',      // Ensure uniqueness and length less than 50
+      distractionFreeMode: 'true'  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk_thread')
+  </script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/ActionScript/" rel="tag">ActionScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/GUI/" rel="tag">GUI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Lua/" rel="tag">Lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Roblox/" rel="tag">Roblox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Rust/" rel="tag">Rust</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Scratch/" rel="tag">Scratch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" rel="tag">版权维护</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" rel="tag">网页三件套</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" rel="tag">自我介绍</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/ActionScript/" style="font-size: 10px;">ActionScript</a> <a href="/blog/tags/GUI/" style="font-size: 10px;">GUI</a> <a href="/blog/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/blog/tags/JavaScript/" style="font-size: 13.33px;">JavaScript</a> <a href="/blog/tags/Lua/" style="font-size: 10px;">Lua</a> <a href="/blog/tags/Roblox/" style="font-size: 10px;">Roblox</a> <a href="/blog/tags/Rust/" style="font-size: 10px;">Rust</a> <a href="/blog/tags/Scratch/" style="font-size: 16.67px;">Scratch</a> <a href="/blog/tags/%E7%89%88%E6%9D%83%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">版权维护</a> <a href="/blog/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 20px;">编程</a> <a href="/blog/tags/%E7%BD%91%E9%A1%B5%E4%B8%89%E4%BB%B6%E5%A5%97/" style="font-size: 10px;">网页三件套</a> <a href="/blog/tags/%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">自我介绍</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2020/01/">一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/11/">十一月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2021/02/03/Rust-UI-%E4%B8%AD%E7%9A%84-ECS/">Rust UI 中的 ECS 架构（翻译）</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/08/12/%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Roblox-%E6%B8%B8%E6%88%8F%E5%85%AC%E5%B9%B3-%E5%AE%89%E5%85%A8/">如何保护你的 Roblox 游戏公平/安全</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/05/16/scratchvmjit/">关于如何优化 Scratch 虚拟机的运行速度思路</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/03/21/librewebapiv2doc/">Libra 红名单 WebAPI v2 文档</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2020/01/31/xxdwysjtrmzdythtml/">小萧的网页三件套入门之第一套：HTML</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+        
+        <div>
+            <a href="https://blog.hydrostic.com/" target="_blank" rel="noopener">Hydrostic</a>
+        </div>
+        
+        <div>
+            <a href="https://blog.alexcui.top/" target="_blank" rel="noopener">Alex Cui</a>
+        </div>
+        
+        <div>
+            <a href="https://www.abelchen.xyz/" target="_blank" rel="noopener">Xiaoji</a>
+        </div>
+        
+        <div>
+            <a href="https://www.hualeipw.top/" target="_blank" rel="noopener">Hualei</a>
+        </div>
+        
+        <div>
+            <a href="https://www.sparrowhe.top/" target="_blank" rel="noopener">Sparrow</a>
+        </div>
+        
+        <div>
+            <a href="https://www.wumouren.xyz/" target="_blank" rel="noopener">某人的天地</a>
+        </div>
+        
+        <div>
+            <a href="https://timfang.baklib.com/" target="_blank" rel="noopener">TimFang</a>
+        </div>
+        
+    </div>
+</div>
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer" style="display: flex;">
+    <div id="footer-info" class="inner" style="display: inline-block; flex: auto; word-wrap: none;">
+      &copy; 2021 Steve Xiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <div style="display: inline-block; flex: 1;"></div>
+    <div id="footer-info" class="inner" style="display: inline-block; flex: auto;">
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">首页</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.0.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+
+  
+<script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
