@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as t,a as c}from"./app-be572551.js";const n={},_=c("p",null,"一位来自中国大陆的自由程序员，啥都会点，在学用 Godot 做游戏，想学画画，想成为五边形游戏开发者。",-1),s=[_];function r(a,l){return o(),t("div",null,s)}const f=e(n,[["render",r],["__file","index.html.vue"]]);export{f as default};
